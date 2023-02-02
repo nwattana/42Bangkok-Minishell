@@ -2,9 +2,9 @@ NAME=minishell
 
 CC=gcc
 CFLAGS=#-Wall -Werror -Wextra
-SRCS= $(shell find ./srcs/ -name "*.c" -type f 2> /dev/null)
+SRCS= $(shell find ./srcs -name "*.c" -type f 2> /dev/null)
 LIBFT= -L./libft/ -I./libft/ -lft
-INC= -I./include/
+INC= -I./inc
 
 OBJ=$(SRCS:.c=.o)
 
@@ -25,7 +25,7 @@ else
 	LREAD_DIR = -L/usr/local/opt/readline -I/usr/local/opt/readline/include -lreadline
 endif
 
-INC=-iquote ./include $(LREAD_DIR) $(LIBFT)
+INC=-iquote./inc $(LREAD_DIR) $(LIBFT)
 
 %.o:%.c libft
 	@echo "$(GREEN)Compile $(RESET)$(BLUE)$<$(RESET)"
