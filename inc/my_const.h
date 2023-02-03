@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:16:27 by nwattana          #+#    #+#             */
-/*   Updated: 2023/01/28 12:10:21 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/03 21:10:31 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # define MIN_INT -2147483648
 # define MAX_UINT 4294967295
 # define PROMPT "minishell>"
+# define D_WORD 0
+# define D_REDIRECT 1
+# define D_PIPE 2
 
 // # define SIGN_OPEN_BRAC 0b00001111 
 // # define SIGN_OPEN_BRAC 0b11110000
