@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/03 00:36:53 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/03 15:06:56 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,10 @@ void process_line(char *line)
 	while (line[i])
 	{
 		tmp = qoute_state_check(line[i], &parser);
-		//printf("qoute_state: %d\n", parser.qoute_state);
 		if (parser.qoute_state == 0 && ft_isdirection(&line[i]))
 		{
 			// init new cmd
 			// add current word to cmd
-			// @bug "echo hello" and echo hello how to know difference
 			word = ft_lst_groupword(&parser.cur_word);
 			printf("word: %s\n", word);
 
@@ -63,6 +61,7 @@ void process_line(char *line)
 		{
 			// stop $ with alphabet or number
 			// expand $env and join to current word
+			i += get_dollar(&parser, &line[i]);
 			printf("Expand $\n");
 		}
 		else if (parser.qoute_state == 0 && line[i] == ' ')
@@ -75,7 +74,11 @@ void process_line(char *line)
 		{
 			// join to current word
 			if (line[i] == '$')
+			{
+				i += get_dollar(&parser, &line[i]);
 				printf("Expand $\n");
+				
+			}
 			else
 				add_char(&parser, line[i]);
 		}
@@ -199,3 +202,33 @@ char *ft_lst_groupword(t_list **lst)
 	return (str);
 }
 
+
+//// tommorrow i will add env value to current word
+/// @brief 
+/// @param parser 
+/// @param line 
+/// @return 
+int		get_dollar(t_parser *parser, char *line)
+{
+	int i;
+	int size;
+	char	*tmp;
+	char	*val;
+
+	i = 0;
+	while (line [i] && line[i + 1] && ft_isalnum(line[i + 1]))
+		i++;
+	if (i > 0)
+	{
+		tmp = ft_substr(line, 1, i);
+		val = getenv(tmp);
+	}
+	size = 0;
+	while (val != NULL && val[size])
+	{
+		add_char(parser, val[size]);
+		size++;
+	}
+	free(tmp);
+	return (i);
+}
