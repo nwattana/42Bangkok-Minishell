@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/03 21:24:01 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/04 12:14:25 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int main(void)
 void parser_init(t_parser *parser)
 {
 	parser->qoute_state = 0;
+	parser->lexel_list = NULL;
+	parser->tmp_lexel = NULL;
 	parser->cur_word = NULL;
 }
 
@@ -52,9 +54,18 @@ void process_line(char *line)
 		if (parser.qoute_state == 0 && ft_isdirection(&line[i]))
 		{
 			// init new cmd
+
 			// add current word to cmd
-			word = ft_lst_groupword(&parser.cur_word);
-			printf("word: %s\n", word);
+			if (ft_lstsize(parser.cur_word) != 0)
+			{
+				// return error statement
+				add_lexel(&parser, D_WORD);
+			}
+			add_char(&parser, line[i]);
+			add_lexel(&parser, line[i]);
+
+			// @debug print word 1
+			printf("word1: %s\n", word);
 
 		}
 		else if (parser.qoute_state == '\"' && line[i] == '$')
@@ -62,13 +73,20 @@ void process_line(char *line)
 			// stop $ with alphabet or number
 			// expand $env and join to current word
 			i += get_dollar(&parser, &line[i]);
-			printf("Expand $\n");
 		}
 		else if (parser.qoute_state == 0 && line[i] == ' ')
 		{
+			// @mainpage
 			// init new word
-			word = ft_lst_groupword(&parser.cur_word);
-			printf("word: %s\n", word);
+			i += skip_space(&line[i]);
+			/// @brief adding current group of word to lexer element list
+			/// @param line 
+			if (ft_lstsize(parser.cur_word) != 0)
+			{
+				// return error statement
+				add_lexel(&parser, D_WORD);
+			}
+			// @debug print word 2
 		}
 		else if (!tmp)
 		{
@@ -84,8 +102,15 @@ void process_line(char *line)
 		}
 		i++;
 	}
-	word = ft_lst_groupword(&parser.cur_word);
-	printf("word: %s\n", word);
+	add_lexel(&parser, D_WORD);
+
+	// @debugzone
+	if (word != NULL)
+		printf("word3: %s |<<still lost word|\n", word);
+	debug_lstnext_show(parser.lexel_list);
+	dump_lexel_list(parser.lexel_list);
+	
+	
 	if (parser.qoute_state != 0)
 		printf(RED"Error: qoute not closed\n"RESET);
 }
@@ -106,6 +131,40 @@ int qoute_state_check(char a, t_parser *parser)
 	return (0);
 }
 
+int	add_lexel(t_parser *parser, int type)
+{
+	char *word;
+
+	if (parser == NULL)
+		return (1);
+	word = ft_lst_groupword(&parser->cur_word);
+	if (word == NULL)
+		return (1);
+	parser->tmp_lexel = lexel_new(word, type);
+	if (parser->tmp_lexel == NULL)
+		return (1);
+	parser->tmp_lst = ft_lstnew(parser->tmp_lexel);
+	if (parser->tmp_lst == NULL)
+		return (1);
+	ft_lstadd_back(&parser->lexel_list, parser->tmp_lst);
+	return (0);
+}
+
+
+
+
+int skip_space(char *line)
+{
+	int i;
+
+	i = 0;
+	while (line[i] == ' ')
+		i++;
+	if (i > 0)
+		return (i - 1);
+	return (i);
+}
+
 /// @brief 
 /// @return 
 int	ft_isdirection(char *c)
@@ -116,7 +175,6 @@ int	ft_isdirection(char *c)
 		return (1);
 	return (0);
 }
-
 /// @brief Collection char and add to current word list
 /// @return error code
 int		add_char(t_parser *parser, char c)
@@ -196,14 +254,15 @@ char *ft_lst_groupword(t_list **lst)
 		tmp = *lst;
 		*lst = (*lst)->next;
 		free(tmp->content);
+		tmp->content = NULL;
 		free(tmp);
 	}
+	tmp = NULL;
 	str[i] = '\0';
 	return (str);
 }
 
 
-//// tommorrow i will add env value to current word
 /// @brief 
 /// @param parser 
 /// @param line 
@@ -231,4 +290,59 @@ int		get_dollar(t_parser *parser, char *line)
 	}
 	free(tmp);
 	return (i);
+}
+
+
+t_lexel *lexel_new(char *str, int type)
+{
+	t_lexel *new;
+
+	new = (t_lexel *)malloc(sizeof(t_lexel));
+	if (new == NULL)
+		return (NULL);
+	new->str = str;
+	new->type = type;
+	return (new);
+}
+
+void	debug_lexel_print(t_lexel *lexel)
+{
+	if (lexel == NULL)
+		return ;
+	printf("lexel: %s, type: %d\n", lexel->str, lexel->type);
+}
+
+void dump_lexel_list(t_list *head)
+{
+	t_list *tmp;
+
+	ft_lstiter(head, debug_lexel_print);
+	tmp = head;
+	while (tmp)
+	{
+		if (((t_lexel *)tmp->content)->type == 0)
+			printf("\"%s\"-> ", ((t_lexel *)tmp->content)->str);
+		else
+			printf("%s -> ", ((t_lexel *)tmp->content)->str);
+		tmp = tmp->next;
+	}
+	tmp = head;
+	while (tmp)
+	{
+		printf("%d -> ", ((t_lexel *)tmp->content)->type);
+		tmp = tmp->next;
+	}
+}
+
+void	debug_lstnext_show(t_list *head)
+{
+	t_list *tmp;
+
+	tmp = head;
+	while (tmp)
+	{
+		printf("%p -> ", tmp);
+		tmp = tmp->next;
+	}
+	printf("NULL\n");
 }
