@@ -6,7 +6,11 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2023/02/04 17:59:21 by nwattana         ###   ########.fr       */
+=======
 /*   Updated: 2023/02/04 12:06:39 by nwattana         ###   ########.fr       */
+>>>>>>> b9384ec3111247b0fc2dd1a75d3327d2c0224b2a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +56,16 @@ typedef struct s_parser
 
 }				t_parser;
 
+typedef struct s_shell
+{
+    char    *line;
+    char    **env;
+    char    **path;
+    char    *home;
+    char    *pwd;
+    t_list  *cmd_list;
+}				t_shell;
+
 int qoute_state_check(char a, t_parser *parser);
 void process_line(char *line);
 int	ft_isdirection(char *c);
@@ -64,7 +78,17 @@ t_lexel	*lexel_new(char *str, int type);
 int skip_space(char *line);
 int	add_lexel(t_parser *parser, int type);
 
+<<<<<<< HEAD
+void init_shell(t_shell *shell, char **env);
+void ft_putstr(char *str);
+void ft_str2diter(char **str, void (*f)(char *));
+void 	clone_env(t_shell *shell, char **env);
+
+void destroy_parser(t_parser *parser);
+void lexel_del(t_lexel *lexel);
+=======
 void debug_lstnext_show(t_list *lst);
 void debug_lexel_print(t_lexel *lexel);
 void dump_lexel_list(t_list *head);
+>>>>>>> b9384ec3111247b0fc2dd1a75d3327d2c0224b2a
 #endif

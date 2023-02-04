@@ -6,17 +6,20 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/04 12:14:25 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:08:47 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-int main(void)
+# include "debug.h"
+int main(int argc, char **argv, char **env)
 {
 	char		*rl_line;
-	//t_shell		shell;
+	t_shell		shell;
 
+	if (argc == 0)
+		(void)argv;
+	init_shell(&shell, env);
 	while (1)
 	{
 		rl_line = readline(PROMPT);
@@ -27,6 +30,9 @@ int main(void)
 		printf(RED"line: %s\n"RESET, rl_line);
 		free(rl_line);
 	}
+	// @skip no need to handle here it will update in future
+	if (rl_line)
+		free(rl_line);
 	return (0);
 }
 
@@ -42,7 +48,6 @@ void process_line(char *line)
 {
 	t_parser	parser;
 	int			i;
-	char 		*word;
 	int			tmp;
 
 	i = 0;
@@ -65,7 +70,6 @@ void process_line(char *line)
 			add_lexel(&parser, line[i]);
 
 			// @debug print word 1
-			printf("word1: %s\n", word);
 
 		}
 		else if (parser.qoute_state == '\"' && line[i] == '$')
@@ -79,6 +83,7 @@ void process_line(char *line)
 			// @mainpage
 			// init new word
 			i += skip_space(&line[i]);
+
 			/// @brief adding current group of word to lexer element list
 			/// @param line 
 			if (ft_lstsize(parser.cur_word) != 0)
@@ -103,16 +108,13 @@ void process_line(char *line)
 		i++;
 	}
 	add_lexel(&parser, D_WORD);
-
 	// @debugzone
-	if (word != NULL)
-		printf("word3: %s |<<still lost word|\n", word);
 	debug_lstnext_show(parser.lexel_list);
 	dump_lexel_list(parser.lexel_list);
-	
-	
 	if (parser.qoute_state != 0)
 		printf(RED"Error: qoute not closed\n"RESET);
+	
+	destroy_parser(&parser);
 }
 /// @brief Check qoute state and change it
 /// return new qoute state
@@ -129,6 +131,23 @@ int qoute_state_check(char a, t_parser *parser)
 		return (1);
 	}
 	return (0);
+}
+
+void	destroy_parser(t_parser *parser)
+{
+	if (parser == NULL)
+		return ;
+	ft_lstclear(&parser->lexel_list, (void*)&lexel_del);
+	ft_lstclear(&parser->cur_word, (void*)&free);
+}
+
+
+void lexel_del(t_lexel *lexel)
+{
+	if (lexel == NULL)
+		return ;
+	free(((t_lexel *)lexel)->str);
+	free(lexel);
 }
 
 int	add_lexel(t_parser *parser, int type)
@@ -262,10 +281,6 @@ char *ft_lst_groupword(t_list **lst)
 	return (str);
 }
 
-/// @brief 
-/// @param parser 
-/// @param line 
-/// @return 
 int		get_dollar(t_parser *parser, char *line)
 {
 	int i;
@@ -291,7 +306,6 @@ int		get_dollar(t_parser *parser, char *line)
 	return (i);
 }
 
-
 t_lexel *lexel_new(char *str, int type)
 {
 	t_lexel *new;
@@ -304,44 +318,3 @@ t_lexel *lexel_new(char *str, int type)
 	return (new);
 }
 
-void	debug_lexel_print(t_lexel *lexel)
-{
-	if (lexel == NULL)
-		return ;
-	printf("lexel: %s, type: %d\n", lexel->str, lexel->type);
-}
-
-void dump_lexel_list(t_list *head)
-{
-	t_list *tmp;
-
-	ft_lstiter(head, debug_lexel_print);
-	tmp = head;
-	while (tmp)
-	{
-		if (((t_lexel *)tmp->content)->type == 0)
-			printf("\"%s\"-> ", ((t_lexel *)tmp->content)->str);
-		else
-			printf("%s -> ", ((t_lexel *)tmp->content)->str);
-		tmp = tmp->next;
-	}
-	tmp = head;
-	while (tmp)
-	{
-		printf("%d -> ", ((t_lexel *)tmp->content)->type);
-		tmp = tmp->next;
-	}
-}
-
-void	debug_lstnext_show(t_list *head)
-{
-	t_list *tmp;
-
-	tmp = head;
-	while (tmp)
-	{
-		printf("%p -> ", tmp);
-		tmp = tmp->next;
-	}
-	printf("NULL\n");
-}
