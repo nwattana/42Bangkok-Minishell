@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/04 12:06:39 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/04 16:38:42 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ int		get_dollar(t_parser *parser, char *line);
 t_lexel	*lexel_new(char *str, int type);
 int skip_space(char *line);
 int	add_lexel(t_parser *parser, int type);
+
+void destroy_parser(t_parser *parser);
+void lexel_del(t_lexel *lexel);
 
 void debug_lstnext_show(t_list *lst);
 void debug_lexel_print(t_lexel *lexel);
