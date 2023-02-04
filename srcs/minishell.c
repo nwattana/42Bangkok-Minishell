@@ -262,7 +262,6 @@ char *ft_lst_groupword(t_list **lst)
 	return (str);
 }
 
-
 /// @brief 
 /// @param parser 
 /// @param line 
