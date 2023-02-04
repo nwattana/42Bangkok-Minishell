@@ -6,17 +6,20 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/04 16:40:50 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/04 17:49:38 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-int main(void)
+# include "debug.h"
+int main(int argc, char **argv, char **env)
 {
 	char		*rl_line;
-	//t_shell		shell;
+	t_shell		shell;
 
+	if (argc == 0)
+		(void)argv;
+	init_shell(&shell, env);
 	while (1)
 	{
 		rl_line = readline(PROMPT);
@@ -80,6 +83,7 @@ void process_line(char *line)
 			// @mainpage
 			// init new word
 			i += skip_space(&line[i]);
+
 			/// @brief adding current group of word to lexer element list
 			/// @param line 
 			if (ft_lstsize(parser.cur_word) != 0)
@@ -277,11 +281,6 @@ char *ft_lst_groupword(t_list **lst)
 	return (str);
 }
 
-
-/// @brief 
-/// @param parser 
-/// @param line 
-/// @return 
 int		get_dollar(t_parser *parser, char *line)
 {
 	int i;
@@ -307,7 +306,6 @@ int		get_dollar(t_parser *parser, char *line)
 	return (i);
 }
 
-
 t_lexel *lexel_new(char *str, int type)
 {
 	t_lexel *new;
@@ -320,45 +318,3 @@ t_lexel *lexel_new(char *str, int type)
 	return (new);
 }
 
-void	debug_lexel_print(t_lexel *lexel)
-{
-	if (lexel == NULL)
-		return ;
-	printf("lexel: %s, type: %d\n", lexel->str, lexel->type);
-}
-
-void dump_lexel_list(t_list *head)
-{
-	t_list *tmp;
-
-	ft_lstiter(head, (void *)debug_lexel_print);
-	tmp = head;
-	while (tmp)
-	{
-		if (((t_lexel *)tmp->content)->type == 0)
-			printf("\"%s\"-> ", ((t_lexel *)tmp->content)->str);
-		else
-			printf("%s -> ", ((t_lexel *)tmp->content)->str);
-		tmp = tmp->next;
-	}
-	tmp = head;
-	printf("\n");
-	while (tmp)
-	{
-		printf("%d -> ", ((t_lexel *)tmp->content)->type);
-		tmp = tmp->next;
-	}
-}
-
-void	debug_lstnext_show(t_list *head)
-{
-	t_list *tmp;
-
-	tmp = head;
-	while (tmp)
-	{
-		printf("%p -> ", tmp);
-		tmp = tmp->next;
-	}
-	printf("NULL\n");
-}
