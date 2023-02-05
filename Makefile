@@ -20,7 +20,7 @@ RESET=\033[0m
 
 UNAME = $(shell uname -s)
 ifeq ($(UNAME), Linux)
-	LREAD_DIR = -L/usr/local/lib -I/usr/local/include/ -lreadline 
+	LREAD_DIR = -L/usr/local/lib -I/usr/local/include/ -lreadline
 else 
 	LREAD_DIR = -L/usr/local/opt/readline -I/usr/local/opt/readline/include -lreadline
 endif
@@ -36,7 +36,7 @@ all:$(NAME)
 $(NAME):$(OBJ)
 	@echo "$(GREEN)Compile $(RESET)$(BLUE)$(NAME)$(RESET)"
 	@printf "$(RED)$(SEP)\nCOMPILE STATEMENT\n$(SEP)\n"
-	-$(CC) $(CFLAGS) $(INC) $(OBJ) -o $(NAME)
+	-$(CC) $(CFLAGS) $(INC) $(OBJ) -o $(NAME) $(LREAD_DIR) $(LIBFT)
 	@printf "$(RED)\n$(SEP)\n$(RESET)"
 	@echo "$(GREEN)Done$(RESET)"
 
