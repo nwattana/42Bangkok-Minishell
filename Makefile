@@ -1,5 +1,4 @@
 NAME=minishell
-
 CC=gcc
 CFLAGS=#-Wall -Werror -Wextra
 SRCS= $(shell find ./srcs -name "*.c" -type f 2> /dev/null)
@@ -28,7 +27,7 @@ endif
 INC=-iquote./inc $(LREAD_DIR) $(LIBFT)
 
 %.o:%.c libft
-	@echo "$(GREEN)Compile $(RESET)$(BLUE)$<$(RESET)"
+	@echo "$(GREEN)Compile $(BLUE)$<$(RESET)"
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 all:$(NAME)
