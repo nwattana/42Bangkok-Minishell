@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nwattana <nwattana@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/04 18:08:47 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/10 01:06:44 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,9 +169,6 @@ int	add_lexel(t_parser *parser, int type)
 	return (0);
 }
 
-
-
-
 int skip_space(char *line)
 {
 	int i;
@@ -194,6 +191,7 @@ int	ft_isdirection(char *c)
 		return (1);
 	return (0);
 }
+
 /// @brief Collection char and add to current word list
 /// @return error code
 int		add_char(t_parser *parser, char c)
@@ -283,8 +281,8 @@ char *ft_lst_groupword(t_list **lst)
 
 int		get_dollar(t_parser *parser, char *line)
 {
-	int i;
-	int size;
+	int     i;
+	int     size;
 	char	*tmp;
 	char	*val;
 
@@ -317,4 +315,3 @@ t_lexel *lexel_new(char *str, int type)
 	new->type = type;
 	return (new);
 }
-
