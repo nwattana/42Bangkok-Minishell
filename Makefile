@@ -3,7 +3,6 @@ CC=gcc
 CFLAGS=#-Wall -Werror -Wextra
 SRCS= $(shell find ./srcs -name "*.c" -type f 2> /dev/null)
 LIBFT= -L./libft/ -I./libft/ -lft
-INC= -I./inc
 
 OBJ=$(SRCS:.c=.o)
 
@@ -28,14 +27,14 @@ INC=-iquote./inc $(LREAD_DIR) $(LIBFT)
 
 %.o:%.c libft
 	@echo "$(GREEN)Compile $(BLUE)$<$(RESET)"
-	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@$(CC) $(CFLAGS) -iquote./inc -c $< -o $@ -g
 
 all:$(NAME)
 
 $(NAME):$(OBJ)
 	@echo "$(GREEN)Compile $(RESET)$(BLUE)$(NAME)$(RESET)"
 	@printf "$(RED)$(SEP)\nCOMPILE STATEMENT\n$(SEP)\n"
-	-$(CC) $(CFLAGS) $(INC) $(OBJ) -o $(NAME) $(LREAD_DIR) $(LIBFT)
+	-$(CC) $(CFLAGS) $(OBJ) $(INC) -o $(NAME)
 	@printf "$(RED)\n$(SEP)\n$(RESET)"
 	@echo "$(GREEN)Done$(RESET)"
 
