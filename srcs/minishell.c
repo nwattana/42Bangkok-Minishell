@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <nwattana@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/10 01:06:44 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/11 15:16:41 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void process_line(char *line)
 	t_parser	parser;
 	int			i;
 	int			tmp;
-
+	char 		tmp_line;
 	i = 0;
 	tmp = 0;
 	parser_init(&parser);
@@ -58,14 +58,11 @@ void process_line(char *line)
 		tmp = qoute_state_check(line[i], &parser);
 		if (parser.qoute_state == 0 && ft_isdirection(&line[i]))
 		{
-			// init new cmd
-
-			// add current word to cmd
 			if (ft_lstsize(parser.cur_word) != 0)
 			{
-				// return error statement
 				add_lexel(&parser, D_WORD);
 			}
+			tmp_line = line[i];
 			add_char(&parser, line[i]);
 			add_lexel(&parser, line[i]);
 
@@ -80,7 +77,6 @@ void process_line(char *line)
 		}
 		else if (parser.qoute_state == 0 && line[i] == ' ')
 		{
-			// @mainpage
 			// init new word
 			i += skip_space(&line[i]);
 
@@ -91,16 +87,12 @@ void process_line(char *line)
 				// return error statement
 				add_lexel(&parser, D_WORD);
 			}
-			// @debug print word 2
 		}
 		else if (!tmp)
 		{
-			// join to current word
 			if (line[i] == '$')
 			{
 				i += get_dollar(&parser, &line[i]);
-				printf("Expand $\n");
-				
 			}
 			else
 				add_char(&parser, line[i]);
@@ -108,14 +100,19 @@ void process_line(char *line)
 		i++;
 	}
 	add_lexel(&parser, D_WORD);
+//	lexical_analysis(&parser);
 	// @debugzone
 	debug_lstnext_show(parser.lexel_list);
 	dump_lexel_list(parser.lexel_list);
 	if (parser.qoute_state != 0)
 		printf(RED"Error: qoute not closed\n"RESET);
-	
-	destroy_parser(&parser);
+
+	//@brif Note to delete parser element
+	//destroy_parser(&parser);
 }
+
+
+
 /// @brief Check qoute state and change it
 /// return new qoute state
 int qoute_state_check(char a, t_parser *parser)
@@ -289,6 +286,8 @@ int		get_dollar(t_parser *parser, char *line)
 	i = 0;
 	while (line [i] && line[i + 1] && ft_isalnum(line[i + 1]))
 		i++;
+	if (i == 0)
+		return (check_reserverd(parser, line));
 	if (i > 0)
 	{
 		tmp = ft_substr(line, 1, i);
@@ -302,6 +301,26 @@ int		get_dollar(t_parser *parser, char *line)
 	}
 	free(tmp);
 	return (i);
+}
+
+int		check_reserverd(t_parser *parser, char *line)
+{
+	char *tmp;
+	int i;
+
+	i = 0;
+	if (line[0] == '$')
+	{
+		tmp =ft_itoa(getpid());
+		while (tmp[i])
+		{
+			add_char(parser, tmp[i]);
+			i++;
+		}
+		return (1);
+	}
+	//  && line[1] == '?' exit status
+	return (0);
 }
 
 t_lexel *lexel_new(char *str, int type)

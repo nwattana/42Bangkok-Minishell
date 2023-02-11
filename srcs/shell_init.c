@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:35:32 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/04 18:00:02 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/11 14:40:41 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,14 @@
  {
 	if (env)
 	{
+		// just point to it is okay;
 		clone_env(shell, env);
-		ft_str2diter(shell->env, ft_putstr_env); 
+		ft_str2diter(shell->env, ft_putstr_env);
 	}
+
+// for free shell->env 
+//	ft_str2diter(shell->env, free);
+//	free(shell->env);
  }
 
 void	ft_putstr_env(char *str)
@@ -71,3 +76,4 @@ void 	clone_env(t_shell *shell, char **env)
 	}
 	shell->env[i] = NULL;
 }
+
