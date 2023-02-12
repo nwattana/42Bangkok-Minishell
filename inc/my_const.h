@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_const.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <nwattana@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:16:27 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/08 14:04:18 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/12 17:06:19 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,8 @@
 # define D_REDIR_APPEND 62
 # define D_REDIR_HEREDOC 60
 # define D_PIPE 124
+
+# define LEX_PIPE_IN 10
+# define LEX_PIPE_OUT 20
 
 #endif

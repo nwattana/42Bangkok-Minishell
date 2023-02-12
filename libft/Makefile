@@ -6,7 +6,7 @@
 #    By: nwattana <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/01 00:39:59 by nwattana          #+#    #+#              #
-#    Updated: 2023/02/10 12:10:17 by nwattana         ###   ########.fr        #
+#    Updated: 2023/02/11 21:46:41 by nwattana         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ CC_FLAG = -Wall -Wextra -Werror
 all: ${NAME}
 
 %.o: %.c
-	@${CC} ${CC_FLAG} -c $< -o $@
+	@${CC} ${CC_FLAG} -c $< -o $@ -g
 	@echo "$(GREEN).$(RESET)\c"
 
 

@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:35:32 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/11 14:40:41 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/12 13:11:51 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,23 @@
 
  void init_shell(t_shell *shell, char **env)
  {
+	int		i;
+
+	i = 0;
 	if (env)
 	{
 		// just point to it is okay;
 		clone_env(shell, env);
-		ft_str2diter(shell->env, ft_putstr_env);
+		shell->path = ft_split(getenv("PATH"),':');
 	}
 
-// for free shell->env 
-//	ft_str2diter(shell->env, free);
-//	free(shell->env);
+	// for free shell->env 
+	// while (shell->env[i])
+	// {
+	// 	free(shell->env[i]);
+	// 	i++;
+	// }
+	// free(shell->env);
  }
 
 void	ft_putstr_env(char *str)
@@ -48,7 +55,7 @@ void	ft_putstr_env(char *str)
 	ft_putstr_fd(RESET"",1);
 }
 
-void    ft_str2diter(char **str, void (*f)(char *))
+void    ft_str2diter(char **str, void (*f)(char*))
 {
     int i;
 
