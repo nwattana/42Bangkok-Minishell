@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/12 17:06:19 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:39:48 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,65 +19,71 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
+# include <sys/wait.h>
+
+
 # include "../libft/libft.h"
 # include "my_color.h"
 # include "my_const.h"
 
 
 
-// @attribut pipeline state => 
+// @attribut pipeline state =>
 // keep state too how to close pipe and pipe open or not
 typedef struct s_cmd
 {
-    char	*cmd;
-    char	**argval;
-    int     argcount;
-    int     fd_stdin;
-    int     fd_stdout;
+	char	*cmd;
+	char	**argval;
+	int     argcount;
+	int     fd_stdin;
+	int     fd_stdout;
 
 
-    int     fd_pipe[2];
-    int     pipeline_state;
-    
-    int     max_arg;
+	int     fd_pipe[2];
+	int     pipeline_state;
+
+	int     max_arg;
 }				t_cmd;
 
 
 /// @brief group argument in lexical_analysis
 typedef struct s_lexeranalysis
 {
-    int     iter;
+	int     iter;
 
 }           t_lexa;
 
 typedef struct s_lexerelement
 {
-    char    *str;
-    int     type;
+	char    *str;
+	int     type;
 }				t_lexel;;
 
 /// @attribute tmp_lexel; ->
 typedef struct s_parser
 {
 	int		quote_state;
-    int     is_char_or_quote;
-    t_lexel *tmp_lexel;
-    t_list  *tmp_lst;
-    
-    t_list  *lexel_list;
+	int		is_char_or_quote;
+	t_lexel	*tmp_lexel;
+	t_list	*tmp_lst;
+
+	t_list	*lexel_list;
 	t_list	*cur_word;
-    t_list  *cmd_list;
+	t_list	*cmd_list;
 
 }				t_parser;
 
 typedef struct s_shell
 {
-    char    *line;
-    char    **env;
-    char    **path;
-    char    *home;
-    char    *pwd;
-    t_list  *cmd_list;
+	char    *line;
+	char    **env;
+	char    **path;
+	char    *home;
+	char    *pwd;
+	int     sh_stdin;
+	int     sh_stdout;
+	t_list  *cmd_list;
 }				t_shell;
 
 // parser smol expand
@@ -119,4 +125,10 @@ void    execute(t_shell *shell);
 void    child_process(t_cmd *cmd, t_shell *shell);
 char    *check_access(t_cmd *cmd, t_shell *shell);
 
+
+// redirect
+t_list  *redir_out(t_list *start, t_cmd **cur_cmd);
+t_list  *redir_in(t_list *start, t_cmd **cur_cmd);
+void    open_for_write(int arrow_count, char *str, t_cmd **curcmd);
+void	open_for_read(int arrow_count, char *str,t_cmd **curcmd);
 #endif

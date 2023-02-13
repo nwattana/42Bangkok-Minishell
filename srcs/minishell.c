@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/12 15:22:13 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/13 23:39:18 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ void process_line(char *line, t_shell *shell)
 	}
 	add_lexel(&parser, D_WORD);
 	// // @debug zone
-	 debug_lstnext_show(parser.lexel_list);
-	 dump_lexel_list(parser.lexel_list);
+	//  debug_lstnext_show(parser.lexel_list);
+	//  dump_lexel_list(parser.lexel_list);
 
 	if (parser.quote_state != 0)
-		printf(RED"Error: quote not closed\n"RESET);
+		dprintf(2,RED"Error: quote not closed\n"RESET);
 	// @lexical analysis
 	lexical_analysis(&parser, shell);
 

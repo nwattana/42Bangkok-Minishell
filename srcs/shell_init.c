@@ -6,14 +6,14 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:35:32 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/12 13:11:51 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/13 22:18:41 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
- void init_shell(t_shell *shell, char **env)
- {
+void init_shell(t_shell *shell, char **env)
+{
 	int		i;
 
 	i = 0;
@@ -23,7 +23,8 @@
 		clone_env(shell, env);
 		shell->path = ft_split(getenv("PATH"),':');
 	}
-
+	shell->sh_stdout = dup(STDOUT_FILENO);
+	shell->sh_stdin = dup(STDIN_FILENO);
 	// for free shell->env 
 	// while (shell->env[i])
 	// {
@@ -31,7 +32,7 @@
 	// 	i++;
 	// }
 	// free(shell->env);
- }
+}
 
 void	ft_putstr_env(char *str)
 {
