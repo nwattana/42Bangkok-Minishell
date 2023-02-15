@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/13 21:39:48 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/15 22:35:12 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include "../libft/libft.h"
 # include "my_color.h"
 # include "my_const.h"
-
+# include "builtin.h"
 
 
 // @attribut pipeline state =>
