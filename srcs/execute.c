@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 13:46:57 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/13 22:34:37 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:32:14 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void    execute(t_shell *shell)
 	while (cmd_node)
 	{
 		tmp_cmd = lst_getcmd(cmd_node);
-		dprintf(2,RED"fd_stdin %d\n"RESET, tmp_cmd->fd_stdin);
-		dprintf(2,RED"fd_stdout %d\n"RESET, tmp_cmd->fd_stdout);
 		dup2(tmp_cmd->fd_stdin, STDIN_FILENO);
 		dup2(tmp_cmd->fd_stdout, STDOUT_FILENO);
 		pid = fork();
@@ -35,18 +33,26 @@ void    execute(t_shell *shell)
 		}
 		else
 		{
-			waitpid(pid, NULL, 0);
+			waitpid(pid, &(tmp_cmd->cmd_status), 0);
+
+			// close file
 			if (tmp_cmd->fd_stdin != STDIN_FILENO)
 				close(tmp_cmd->fd_stdin);
 			if (tmp_cmd->fd_stdin != STDOUT_FILENO)
 				close(tmp_cmd->fd_stdout);
+			if (tmp_cmd->here_doc_status == 1)
+			{
+				clear_hd(tmp_cmd);
+			}
+			
 			dup2(shell->sh_stdout, STDOUT_FILENO);
 			dup2(shell->sh_stdin, STDIN_FILENO);
 			cmd_node = cmd_node->next;
 		}
 	}
-	// ft_lstclear(&shell->cmd_list, free);
-	// shell->cmd_list = NULL;
+	dprintf(2, "Exit %d\n", tmp_cmd->cmd_status);
+	ft_lstclear(&shell->cmd_list, free);
+	shell->cmd_list = NULL;
 }
 
 void    child_process(t_cmd *cmd, t_shell *shell)

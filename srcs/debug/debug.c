@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:32:18 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/13 22:16:23 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:50:05 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,25 @@ void	cmd_dump(void *content)
 {
 	t_cmd *tmp;
 
+	if (!content)
+		return (void)dprintf(2, \
+		RESET"Command IS NULL "
+		RED"A"
+		GREEN"i "
+		BLUE"S"
+		GREEN"U"
+		RED"S"
+		RESET"pect some where wrong\n");
 	tmp = (t_cmd *)content;
+	dprintf(2,GREEN"-----------------------\n"RESET);
 	dprintf(2,"cmd = %s av = %d\n",tmp->cmd, tmp->argcount);
 	ft_str2diter(tmp->argval, ft_debug_greenstr_nl);
+	dprintf(2,"STDOUT = %d\n", tmp->fd_stdout);
+	dprintf(2,"STDIN = %d\n", tmp->fd_stdin);
+	if (tmp->here_doc_status)
+		dprintf(2,"Here doc = %s\n", tmp->heredoc_filename);
+	
+	dprintf(2,RED"-----------------------\n"RESET);
 	
 }
 

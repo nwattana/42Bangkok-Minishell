@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:12:14 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/13 23:48:06 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/16 10:42:00 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    add_command_to_null_cmd(t_cmd *cmd, char *str);
 /// @param parser 
 void lexical_analysis(t_parser *parser, t_shell *shell)
 {   
-	int i=0;
+	int i = 0;
 	t_lexel *tmp_lexel;
 	t_cmd   *tmp_cmd;
 	int     command_start;
@@ -35,7 +35,6 @@ void lexical_analysis(t_parser *parser, t_shell *shell)
 	while (tmp_node)
 	{
 		tmp_lexel = (t_lexel *)tmp_node->content;
-		// No command in list
 		if (!command_start)
 		{
 			if (tmp_lexel->type == D_WORD)
@@ -59,33 +58,50 @@ void lexical_analysis(t_parser *parser, t_shell *shell)
 		{
 			// oh found < 
 			// @Start here
-
 			tmp_node = redir_in(tmp_node, &tmp_cmd);
 		}
 		if (tmp_lexel->type == D_REDIR_OUT)
 		{
 			// oh found > 
-
 			tmp_node = redir_out(tmp_node, &tmp_cmd);
 		}
+		if (tmp_lexel->type == D_PIPE)
+		{
+		    // check create pipeline command keep result init
+		    // current command if fd out not change
+		    // pipe [cur_fdout | buff_cmd | new_cmd fd_in set to pipe] 
+			// oh we found the | pipe
+			dprintf(2, BLUE"TEST PIPE\n"RESET);
+			cmd_dump(tmp_cmd);
+			// piping out 1 cmd
 
-		// if (tmp_lexel->type == D_PIPE)
-		// {
-		//     // check create pipeline command keep result init
-		//     // current command if fd out not change
-		//     // pipe [cur_fdout | buff_cmd | new_cmd fd_in set to pipe] 
-		// }
+			// create piping in to next cmd
+		
 
+			// join cmd to list
+			if (tmp_cmd != NULL)
+				ft_lstadd_back(&shell->cmd_list, ft_lstnew(tmp_cmd));
+			else
+			{
+				ft_putstr_fd(RED"Error: PIPE From Nothing is NULL\n"RESET, 2);
+			}
+			tmp_cmd = NULL;
+			command_start = 0;
+
+
+			// make write end
+			// finish write end
+			// create read end -> null str name
+			// set cmd-start to NULL
+		}
 		if (tmp_node)
 			tmp_node = tmp_node->next;
 	}
-
-	// test excute
 	ft_lstadd_back(&shell->cmd_list, ft_lstnew(tmp_cmd));
-	// debug_print_cmd(lst_getcmd(shell->cmd_list));
-	execute(shell);
-	ft_lstclear(&shell->cmd_list, free);
-	// cmd_clear(tmp_cmd);
+	ft_lstiter(shell->cmd_list, cmd_dump);
+
+//	execute(shell);
+	ft_lstclear(&shell->cmd_list, cmd_clear);
 }
 
 void    add_command_to_null_cmd(t_cmd *cmd, char *str)
@@ -135,23 +151,32 @@ void	open_for_read(int arrow_count, char *str,t_cmd **curcmd)
 {
 	int		file_to_open;
 	char	*buffer;
+	char	*tmp_hd;
 
 	if (!curcmd)
 		return ;
 	if (!*curcmd)
 		*curcmd = create_cmd(NULL);
 	if ((*curcmd)->fd_stdin != STDIN_FILENO)
+	{
+		clear_hd((*curcmd));
 		close ((*curcmd)->fd_stdin);
+	}
 	if (arrow_count == 1)
 	{
 		file_to_open = open(str, O_RDONLY, 0777);
 	}
 	else if (arrow_count == 2)
 	{
-		dprintf(2, RED"DOING HEREDOC"RESET);
-
-		/// @brief just wait for heredoc
-		file_to_open = 0;
+		(*curcmd)->heredoc_filename = hd_name(str);
+		(*curcmd)->here_doc_status = 1;
+		tmp_hd = get_here_doc(str);
+		 file_to_open = open((*curcmd)->heredoc_filename, \
+		 	O_WRONLY | O_CREAT | O_TRUNC, \
+			0777);
+		write(file_to_open, tmp_hd, ft_strlen(tmp_hd));
+		close(file_to_open);
+		file_to_open = open((*curcmd)->heredoc_filename, O_RDONLY);
 	}
 	(*curcmd)->fd_stdin = file_to_open;
 }
@@ -215,10 +240,12 @@ void    open_for_write(int arrow_count, char *str, t_cmd **curcmd)
 }
 
 
-void    cmd_clear(t_cmd *cmd)
+void    cmd_clear(void *vtf_cmd)
 {
 	int i;
+	t_cmd *cmd;
 
+	cmd = (t_cmd *)vtf_cmd;
 	i = 0;
 	if (!cmd)
 		return ;
@@ -228,8 +255,13 @@ void    cmd_clear(t_cmd *cmd)
 		free(cmd->argval[i]);
 		i++;
 	}
+	if (cmd->here_doc_status)
+	{
+		free(cmd->heredoc_filename);
+	}
 	free(cmd->argval);
 	free(cmd);
+	cmd = NULL;
 }
 
 t_cmd *lst_getcmd(t_list *lst)
@@ -281,8 +313,9 @@ t_cmd   *create_cmd(char *str)
 	{
 		new_cmd->cmd = NULL;
 		new_cmd->argval[0] = NULL;
-		 new_cmd->argcount = 0;
+		new_cmd->argcount = 0;
 	}
+	new_cmd->here_doc_status = 0;
 	new_cmd->max_arg = 9;
 	new_cmd->fd_stdin = 0;
 	new_cmd->fd_stdout = 1;
@@ -304,4 +337,22 @@ char    **ft_str2drelloc_free(char **str, int size)
 	// ft_str2diter(str, free);
 	// free(str);
 	return (new_str);
+}
+
+// clear here doc file
+// and set here doc status to 0
+void	clear_hd(void *vtf_cmd)
+{
+	t_cmd *cmd;
+
+	if (!vtf_cmd)
+		return ;
+	cmd = (t_cmd *)vtf_cmd;
+	if (cmd->here_doc_status)
+	{
+		unlink(cmd->heredoc_filename);
+		free(cmd->heredoc_filename);
+		cmd->heredoc_filename = NULL;
+	}
+	cmd->here_doc_status = 0;
 }

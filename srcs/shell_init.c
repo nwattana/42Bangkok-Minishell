@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:35:32 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/13 22:18:41 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:11:27 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ void init_shell(t_shell *shell, char **env)
 		// just point to it is okay;
 		clone_env(shell, env);
 		shell->path = ft_split(getenv("PATH"),':');
+
+		// must re-assign when cd
+		shell->pwd = ft_strdup(getenv("PWD"));
 	}
 	shell->sh_stdout = dup(STDOUT_FILENO);
 	shell->sh_stdin = dup(STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:16:27 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/12 17:06:19 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/15 20:27:48 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define MAX_INT 2147483647
 # define MIN_INT -2147483648
 # define MAX_UINT 4294967295
-# define PROMPT "minishell> "
+# define PROMPT GREEN"minishell> "WHITE
 
 # define D_EOW 0
 # define D_WORD 1
