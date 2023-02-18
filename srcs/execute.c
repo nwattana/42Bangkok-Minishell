@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 13:46:57 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/15 21:32:14 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/17 23:26:21 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ void    execute(t_shell *shell)
 		else
 		{
 			waitpid(pid, &(tmp_cmd->cmd_status), 0);
-
-			// close file
 			if (tmp_cmd->fd_stdin != STDIN_FILENO)
 				close(tmp_cmd->fd_stdin);
 			if (tmp_cmd->fd_stdin != STDOUT_FILENO)
@@ -44,7 +42,6 @@ void    execute(t_shell *shell)
 			{
 				clear_hd(tmp_cmd);
 			}
-			
 			dup2(shell->sh_stdout, STDOUT_FILENO);
 			dup2(shell->sh_stdin, STDIN_FILENO);
 			cmd_node = cmd_node->next;

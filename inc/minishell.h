@@ -6,10 +6,9 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/16 03:07:44 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/18 02:39:58 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -22,12 +21,10 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 
-
 # include "../libft/libft.h"
 # include "my_color.h"
 # include "my_const.h"
 # include "here_doc.h"
-
 
 // @attribut pipeline state =>
 // keep state too how to close pipe and pipe open or not
@@ -42,11 +39,15 @@ typedef struct s_cmd
 	char	*heredoc_filename;
 	int		here_doc_status;
 
-	int     fd_pipe[2];
-	int     pipeline_state;
+	// contain previous cmd pipeout
+	int		*pipein;
+	// contain current cmd stdout
+	int     pipeout[2];
 	
+	int     pipeline_state;
 	int		cmd_status;
-
+	int		cmd_exit_status;
+	int		cmd_pre_exit_status;
 	int     max_arg;
 }				t_cmd;
 
@@ -118,6 +119,7 @@ t_cmd   *create_cmd(char *str);
 void    add_argument(t_cmd *cmd, char *str);
 char    **ft_str2drelloc_free(char **str, int size);
 t_cmd   *lst_getcmd(t_list *lst);
+
 // clear
 void    cmd_clear(void *vtf_cmd);
 
@@ -136,6 +138,9 @@ t_list  *redir_out(t_list *start, t_cmd **cur_cmd);
 t_list  *redir_in(t_list *start, t_cmd **cur_cmd);
 void    open_for_write(int arrow_count, char *str, t_cmd **curcmd);
 void	open_for_read(int arrow_count, char *str,t_cmd **curcmd);
+void    add_command_to_null_cmd(t_cmd *cmd, char *str);
+int		*to_pipe(t_cmd *cmd);
+
 
 // clear
 void	clear_hd(void *vtf_cmd);

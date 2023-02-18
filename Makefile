@@ -25,11 +25,11 @@ endif
 
 INC=-iquote./inc $(LREAD_DIR) $(LIBFT)
 
+all:$(NAME)
+
 %.o:%.c libft
 	@echo "$(GREEN)Compile $(BLUE)$<$(RESET)"
 	@$(CC) $(CFLAGS) -iquote./inc -c $< -o $@ -g
-
-all:$(NAME)
 
 $(NAME):$(OBJ)
 	@echo "$(GREEN)Compile $(RESET)$(BLUE)$(NAME)$(RESET)"
