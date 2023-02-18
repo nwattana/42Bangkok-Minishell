@@ -6,11 +6,12 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:32:18 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/15 21:50:05 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/18 17:30:39 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/debug.h"
+#include "../inc/minishell.h"
 
 void	debug_lexel_print(t_lexel *lexel)
 {
@@ -79,8 +80,9 @@ void	cmd_dump(void *content)
 	ft_str2diter(tmp->argval, ft_debug_greenstr_nl);
 	dprintf(2,"STDOUT = %d\n", tmp->fd_stdout);
 	dprintf(2,"STDIN = %d\n", tmp->fd_stdin);
+	dprintf(2,"PIPEline state = %d\n", tmp->pipeline_state);
 	if (tmp->here_doc_status)
-		dprintf(2,"Here doc = %s\n", tmp->heredoc_filename);
+		dprintf(2,"Here doc string name = %s\n", tmp->heredoc_filename);
 	
 	dprintf(2,RED"-----------------------\n"RESET);
 	

@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/19 04:45:57 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/19 04:49:55 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void process_line(char *line, t_shell *shell)
 	// @lexical analysis
 	lexical_analysis(&parser, shell);
 
-
+	
 	//@brif Note to delete parser element
 	//destroy_parser(&parser);
 }

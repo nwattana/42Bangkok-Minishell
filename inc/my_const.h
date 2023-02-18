@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:16:27 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/15 20:27:48 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/17 22:22:38 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,8 @@
 
 # define LEX_PIPE_IN 10
 # define LEX_PIPE_OUT 20
+
+# define PIPE_READ_END 0
+# define PIPE_WRITE_END 1
 
 #endif
