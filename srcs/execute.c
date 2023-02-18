@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 13:46:57 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/17 23:26:21 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/18 12:10:30 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,14 @@ void    execute(t_shell *shell)
 	shell->cmd_list = NULL;
 }
 
-void    child_process(t_cmd *cmd, t_shell *shell)
+void    child_process(t_cmd *cmd, t_shell *shell, int std)
 {
 	int     iter;
 	char    *real_cmd;
 
 	iter = 0;
+	dup2(cmd->fd_stdin, STDIN_FILENO);
+	dup2(cmd->fd_stdout, STDOUT_FILENO);
 	real_cmd = check_access(cmd, shell);
 	if (real_cmd == NULL)
 	{
@@ -90,4 +92,31 @@ char    *check_access(t_cmd *cmd, t_shell *shell)
 		free(path);
 	}
 	return (NULL);
+}
+
+void	execute2(t_cmd *cmd, t_shell *sh, int *std)
+{
+	int pid;
+
+	while (cmd)
+	{
+		if (pid == 0)
+		{
+			child_p(cmd, sh);
+		}
+		else
+		{
+			waitpid(pid, NULL, 0);
+		}
+		cmd= cmd->next;
+	}
+	return ;
+}
+
+int	child_process(t_cmd *cmd, t_shell *sh)
+{
+	dup2(cmd->fd_stdin, STDIN_FILENO);
+	dup2(cmd->fd_stdout, STDOUT_FILENO);
+	if (cmd->fd_stdout == 0)
+		dup2(cmd->)
 }
