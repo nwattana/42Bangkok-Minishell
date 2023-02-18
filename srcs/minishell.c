@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/15 14:58:01 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/19 00:16:48 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,11 @@ int main(int argc, char **argv, char **env)
 	while (1)
 	{
 		rl_line = readline(PROMPT);
-		if (ft_strncmp(rl_line, "exit", 4) == 0)
+		if (!rl_line || ft_strncmp( "exit",rl_line, 4) == 0)
+		{
+			printf("rl = %s\n",rl_line);
 			break;
+		}
 		process_line(rl_line, &shell);
 //		add_history(line);
 		free(rl_line);
@@ -93,7 +96,7 @@ void process_line(char *line, t_shell *shell)
 	// @lexical analysis
 	lexical_analysis(&parser, shell);
 
-
+	
 	//@brif Note to delete parser element
 	//destroy_parser(&parser);
 }

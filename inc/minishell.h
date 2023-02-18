@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/18 02:39:58 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/18 16:59:36 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_cmd
 	char	*cmd;
 	char	**argval;
 	int     argcount;
+
 	int     fd_stdin;
 	int     fd_stdout;
 
@@ -128,9 +129,11 @@ void destroy_parser(t_parser *parser);
 void lexel_del(t_lexel *lexel);
 
 // execute
-void    execute(t_shell *shell);
-void    child_process(t_cmd *cmd, t_shell *shell);
+void	close_pipe(t_cmd *cmd, int *std);
 char    *check_access(t_cmd *cmd, t_shell *shell);
+void	ex_cute(t_cmd *cmd, t_shell *shell);
+int		direction_pipeline(t_list *cmd_list, t_shell *shell);
+
 
 
 // redirect
@@ -148,4 +151,7 @@ void	clear_hd(void *vtf_cmd);
 
 // universal clear
 
+
+// just utility
+void	put_error(char	*str); // <- red color in stderr
 #endif

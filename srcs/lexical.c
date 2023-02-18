@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:12:14 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/18 11:21:32 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/19 04:25:51 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,14 @@ void lexical_analysis(t_parser *parser, t_shell *shell)
 	int i = 0;
 	t_lexel *tmp_lexel;
 	t_cmd   *tmp_cmd;
+	int		std[2];
 	int     command_start;
 	t_list  *tmp_node;
 	int		pipe_is_open;
 	int		*from_pipe;
 
+	std[0] = dup(STDIN_FILENO);
+	std[1] = dup(STDOUT_FILENO);
 	// initial
 	pipe_is_open = 0;
 	tmp_node = parser->lexel_list;
@@ -80,6 +83,7 @@ void lexical_analysis(t_parser *parser, t_shell *shell)
 				ft_putstr_fd(RED"Error: PIPE From Nothing is NULL\n"RESET, 2);
 			}
 			tmp_cmd = create_cmd(NULL);
+			dprintf(2, "From PIPE %d %d\n", from_pipe[0], from_pipe[1]);
 			tmp_cmd->fd_stdin = from_pipe[0];
 			tmp_cmd->pipein = from_pipe;
 			tmp_cmd->pipeline_state += 2;
@@ -97,7 +101,7 @@ void lexical_analysis(t_parser *parser, t_shell *shell)
 	// @debug printf cmd list
 	ft_lstiter(shell->cmd_list, cmd_dump);
 
-//	execute(shell);
+	direction_pipeline(shell->cmd_list, shell);
 	ft_lstclear(&shell->cmd_list, cmd_clear);
 }
 
