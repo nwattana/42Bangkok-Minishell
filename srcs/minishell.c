@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/19 04:49:55 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/19 12:04:12 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,20 @@ int main(int argc, char **argv, char **env)
 	if (argc == 0)
 		(void)argv;
 	init_shell(&shell, env);
-	ft_env(shell.env);
-// 	while (1)
-// 	{
-// 		rl_line = readline(PROMPT);
-// 		if (ft_strncmp(rl_line, "exit", 4) == 0)
-// 			break;
-// 		process_line(rl_line, &shell);
-// //		add_history(line);
-// 		free(rl_line);
-// 	}
-// 	// @skip no need to handle here it will update in future
-// 	if (rl_line)
-// 		free(rl_line);
-// 	return (0);
+	while (1)
+	{
+		rl_line = readline(PROMPT);
+		if (rl_line == NULL)
+			break;
+		process_line(rl_line, &shell);
+		if (ft_strlen(rl_line) > 0)
+			add_history(line);
+		free(rl_line);
+	}
+	// @skip no need to handle here it will update in future
+	if (rl_line)
+		free(rl_line);
+	return (0);
 }
 
 void process_line(char *line, t_shell *shell)

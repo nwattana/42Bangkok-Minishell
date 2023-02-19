@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/12 18:01:03 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/19 05:02:25 by nwattana         ###   ########.fr       */
+/*   Created: 2023/02/19 04:55:43 by nwattana          #+#    #+#             */
+/*   Updated: 2023/02/19 05:02:32 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/builtin.h"
+#include "libft.h"
 
+int	ft_strcmp(const char *str1, char *str2)
+{
+	unsigned int	i;
 
-// check input =
-// if there is no argument env have to sort but still the same env
-// ex. export p=p -> env
-// if we have valuable just change value if not will add new value
-// new creat case (env in env)
-//
-
-// ft_export(char)
+	i = 0;
+	while (str1[i] && str2[i] && str1[i] == str2[i])
+	{
+		i++;
+	}
+	return (str2[i] - str1[i]);
+}

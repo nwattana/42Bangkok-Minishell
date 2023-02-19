@@ -46,6 +46,7 @@ typedef struct s_cmd
 	int     fd_pipe[2];
 	int     pipeline_state;
 	
+	int		cmd_pre_exit_status;
 	int		cmd_status;
 
 	int     max_arg;

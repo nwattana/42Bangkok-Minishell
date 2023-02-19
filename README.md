@@ -59,3 +59,7 @@ f3 not exist, f2 exst
 > >f3 <f3 echo hello
 - create f3 and echo hello into it
 ```
+
+
+Note create strcmp  --> do unit test
+set path to env

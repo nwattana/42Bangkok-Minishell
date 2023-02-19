@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 17:25:51 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/19 04:27:48 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/19 05:02:24 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,10 @@ void close_pipe(t_cmd *cmd, int *std)
 }
 
 
+int		iscmd_inbuilt_in(char *cmd, t_shell *shell)
+{
+	
+}
 
 
 // void	close_pipe2(t_cmd *cmd, int *std)
