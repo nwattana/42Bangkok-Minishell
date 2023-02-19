@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:32:18 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/18 17:30:39 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 01:45:21 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,10 @@ void	debug_print_cmd(t_cmd *cmd)
 	dprintf(2,"STDIN = %d\n", cmd->fd_stdin);
 }
 
-void    ft_debug_greenstr_nl(char *str)
+void    ft_debug_greenstr_nl(void *stra)
 {
+	char *str;
+	
+	str = (char *)stra;
     dprintf(2,GREEN"%s\n"RESET,str);
 }

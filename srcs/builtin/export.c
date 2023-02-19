@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:01:03 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/19 17:46:32 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/19 23:41:57 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,29 @@
 // do it in main
 int	ft_export(t_cmd *cmd, t_shell *shell)
 {
-	// how to export  :)
 	char	**s_arg;
 	char	i;
 	char	*key;
 	char	*content;
-	static	int		times;
-
+	char *envi;
+	
 	i = 1;
 	while(cmd->argval[i])
 	{
 		if (cmd->argval[i][0] == '\0')
-			exit(1);
+			return (1);
 		content = ft_strchr(cmd->argval[i],'=');
-
-		if (content != NULL && content[0] != '\0')
+		if (content == NULL)
+		{
+			i++;
+			continue;
+		}
+		if (content[0] != '\0')
 		{
 			key = ft_substr(cmd->argval[i], 0, &content[1] -  cmd->argval[i]);
-			dprintf(2,RED"Key : %s\n", key);	
-			dprintf(2,GREEN"Content :%s\n", &content[1]);
 			free(key);
 		}
-		char *envi;
+
 		int j=0;
 		while (shell->env[j] && key != NULL)
 		{
@@ -55,28 +56,24 @@ int	ft_export(t_cmd *cmd, t_shell *shell)
 			if (envi != NULL)
 				break;
 			j++;
-			printf("%s\n", envi);
 		}
 		char *tmp;
-
-		dprintf(2, "%s\n", envi);
 		if (envi != NULL)
 		{
 			tmp = envi;
-			shell->env[i] = ft_strjoin("",cmd->argval[i]);
-			printf("%s\n",shell->env[i]);
+			shell->env[j] = ft_strdup(cmd->argval[i]);
 			free(envi);
-			i++;
+			j++;
 		}
 		if (envi == NULL)
 		{
-			dprintf(2,RED"HELO\n"RESET);
-			// shell->env = ft_str2d_addmem(shell->env, cmd->argval[i]);
+
+			shell->env = ft_str2d_addmem(shell->env, cmd->argval[i]);
 		}
+		i++;
 	}
 	return (0);
 }
-
 
 char	**ft_str2d_addmem(char **str, char *new_str)
 {
@@ -98,9 +95,10 @@ char	**ft_str2d_addmem(char **str, char *new_str)
 		ret[i] = str[i];
 		i++;
 	}
-	ret[i] = new_str;
+	ret[i] = ft_strdup(new_str);
 	i++;
 	ret[i] = NULL;
-	// free(tmp);
+	free(tmp);
+	str = NULL;
 	return (ret);
 }

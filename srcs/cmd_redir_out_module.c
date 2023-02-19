@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 22:52:43 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/19 04:26:32 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 02:27:58 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ void    open_for_write(int arrow_count, char *str, t_cmd **curcmd)
 	else if (arrow_count == 2)
 		file_to_open = open(str, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	(*curcmd)->fd_stdout = file_to_open;
-	dprintf(2, "STD OUT = %d\n", file_to_open);
+	// to print Where stdout direction
+	// dprintf(2, "STD OUT = %d\n", file_to_open);
 }

@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:59:58 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/12 15:18:25 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 01:59:41 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,54 +182,9 @@ char *ft_lst_groupword(t_list **lst)
 	return (str);
 }
 
-int		get_dollar(t_parser *parser, char *line)
-{
-	int     i;
-	int     size;
-	char	*tmp;
-	char	*val;
 
-	i = 0;
-	while (line [i] && line[i + 1] && ft_isalnum(line[i + 1]))
-		i++;
-	if (i == 0)
-		return (check_reserverd(parser, line));
-	if (i > 0)
-	{
-		tmp = ft_substr(line, 1, i);
-		val = getenv(tmp);
-	}
-	size = 0;
-	while (val != NULL && val[size])
-	{
-		add_char(parser, val[size]);
-		size++;
-	}
-	free(tmp);
-	return (i);
-}
 
-int		check_reserverd(t_parser *parser, char *line)
-{
-	char *tmp;
-	int i;
 
-	i = 0;
-	// ไม่ได้ใช้ @wait for show exit status
-	if (line[0] == '$')
-	{
-		tmp =ft_itoa(getpid());
-		while (tmp[i])
-		{
-			add_char(parser, tmp[i]);
-			i++;
-		}
-		free(tmp);
-		return (1);
-	}
-	//  && line[1] == '?' exit status
-	return (0);
-}
 
 t_lexel *lexel_new(char *str, int type)
 {

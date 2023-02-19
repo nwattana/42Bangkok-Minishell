@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:35:32 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/19 13:12:20 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 01:53:50 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,24 @@
 void init_shell(t_shell *shell, char **env)
 {
 	int		i;
+	char	*tmp;
 
 	i = 0;
 	if (env)
 	{
 		// just point to it is okay;
 		clone_env(shell, env);
-		shell->path = ft_split(getenv("PATH"),':');
+		tmp = get_env_from_key("PATH", shell);
+		shell->path = ft_split(tmp,':');
+		free(tmp);
 		// must re-assign when cd
-		shell->pwd = ft_strdup(getenv("PWD"));
+		tmp = get_env_from_key("PWD", shell);
+		shell->pwd = ft_strdup(tmp);
+		free(tmp);
 	}
 	shell->sh_stdout = dup(STDOUT_FILENO);
 	shell->sh_stdin = dup(STDIN_FILENO);
+	shell->last_status = 0;
 	// for free shell->env 
 	// while (shell->env[i])
 	// {
@@ -58,7 +64,7 @@ void	ft_putstr_env(char *str)
 	ft_putstr_fd(RESET"",1);
 }
 
-void    ft_str2diter(char **str, void (*f)(char*))
+void    ft_str2diter(char **str, void (*f)(void*))
 {
     int i;
 

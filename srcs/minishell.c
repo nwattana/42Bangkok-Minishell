@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/19 13:51:18 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 02:02:33 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int main(int argc, char **argv, char **env)
 	while (1)
 	{
 		rl_line = readline(PROMPT);
-		if (rl_line == NULL || (ft_strncmp(rl_line, "exit", 4) == 0))
+		if (rl_line == NULL)
 			break;
 		process_line(rl_line, &shell);
-		if (ft_strlen(rl_line) > 0)
-			add_history(rl_line);
+		// if (ft_strlen(rl_line) > 0)
+		// 	add_history(rl_line);
 		free(rl_line);
 	}
 	return (0);
@@ -56,7 +56,7 @@ void process_line(char *line, t_shell *shell)
 		}
 		else if (parser.quote_state == '\"' && line[i] == '$')
 		{
-			i += get_dollar(&parser, &line[i]);
+			i += get_dollar(&parser, &line[i], shell);
 		}
 		else if (parser.quote_state == 0 && line[i] == ' ')
 		{
@@ -72,7 +72,7 @@ void process_line(char *line, t_shell *shell)
 		{
 			if (line[i] == '$')
 			{
-				i += get_dollar(&parser, &line[i]);
+				i += get_dollar(&parser, &line[i], shell);
 			}
 			else
 				add_char(&parser, line[i]);

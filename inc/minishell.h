@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/19 17:30:06 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 02:30:05 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_shell
 	char    **path;
 	char    *home;
 	char    *pwd;
+	char	*oldpwd;
+	int		last_status;
 	int     sh_stdin;
 	int     sh_stdout;
 	t_list  *cmd_list;
@@ -103,8 +105,7 @@ t_list	*ft_lst_newchar(char c);
 t_list 	*ft_lst_addword(t_list **lst, t_list *word);
 int		add_char(t_parser *parser, char c);
 char	*ft_lst_groupword(t_list **lst);
-int		get_dollar(t_parser *parser, char *line);
-int		check_reserverd(t_parser *parser, char *line);
+int		get_dollar(t_parser *parser, char *line, t_shell *shell);
 
 t_lexel	*lexel_new(char *str, int type);
 int 	skip_space(char *line);
@@ -113,7 +114,7 @@ int		add_lexel(t_parser *parser, int type);
 // init shell
 void	init_shell(t_shell *shell, char **env);
 void	ft_putstr_env(char *str);
-void	ft_str2diter(char **str, void (*f)(char *));
+void	ft_str2diter(char **str, void (*f)(void *));
 void	clone_env(t_shell *shell, char **env);
 
 // lexical analysis
@@ -122,7 +123,7 @@ t_cmd   *create_cmd(char *str);
 void    add_argument(t_cmd *cmd, char *str);
 char    **ft_str2drelloc_free(char **str, int size);
 t_cmd   *lst_getcmd(t_list *lst);
-
+t_cmd	*cmd_hand_gen(char *cmdin, char *argv);
 // clear
 void    cmd_clear(void *vtf_cmd);
 
@@ -155,11 +156,22 @@ void	clear_hd(void *vtf_cmd);
 
 
 // just utility
-void	put_error(char	*str); // <- red color in stderr
 
 
-// builtin 
+// env utils
+int		check_env_valid_key(char *key, t_shell *sh);
+int		create_tmp_key(char **buf, char *key);
+char	*get_env_from_key(char *key, t_shell *shell);
+void	path_update(t_shell *shell);
+
+// builtin
 void	ft_env(char **env, t_shell *shell);
 int		ft_pwd(t_shell *shell);
-int	ft_export(t_cmd *cmd, t_shell *shell);
+int		ft_export(t_cmd *cmd, t_shell *shell);
+int		ft_unset(t_cmd *cmd, t_shell *shell);
+int		ft_str2dlen(char **str);
+int		ft_cd(t_cmd *cmd, t_shell *shell);
+int		ft_exit(t_cmd *exit, t_shell *shell);
+int		ft_echo(t_cmd *cmd);
+
 #endif

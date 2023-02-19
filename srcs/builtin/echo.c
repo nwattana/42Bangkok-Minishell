@@ -6,26 +6,28 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:58:22 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/19 14:20:06 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 02:20:59 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/builtin.h"
-
-int	ft_echo(char **argv)
+#include "../../inc/debug.h"
+int	ft_echo(t_cmd *cmd)
 {
 	int		nl;
 	int		i;
+	char	**argv;
 
 	i = 1;
 	nl = 0;
-	dprintf(2,GREEN"Built in\n"RESET);
-	while (ft_strcmp(argv[i], "-n") == 0)
+	argv=cmd->argval;
+	while (cmd->argcount != 1 &&ft_strcmp(argv[i], "-n") == 0)
 	{
 		nl = 1;
 		i++;
+		cmd->argcount--;
 	}
-	while (argv[i])
+	while (cmd->argcount != 1 && argv[i])
 	{
 		ft_putstr_fd(argv[i], 1);
 		i++;

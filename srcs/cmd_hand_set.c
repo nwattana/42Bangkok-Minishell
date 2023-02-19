@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   cmd_hand_set.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/12 17:31:27 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/20 02:22:24 by nwattana         ###   ########.fr       */
+/*   Created: 2023/02/19 22:36:47 by nwattana          #+#    #+#             */
+/*   Updated: 2023/02/19 23:41:22 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include "../inc/minishell.h"
 
-# include "minishell.h"
-# include "here_doc.h"
+t_cmd	*cmd_hand_gen(char *cmdin, char *argv)
+{
+	t_cmd *cmd;
 
-
-
-#endif
+	cmd = create_cmd(cmdin);
+	add_argument(cmd, argv);
+	return (cmd);
+}
