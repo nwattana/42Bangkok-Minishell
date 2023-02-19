@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 17:25:51 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/19 13:24:16 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/19 17:07:21 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		direction_pipeline(t_list *cmd_list, t_shell *shell)
 		{
 			// child program
 			close_pipe(cmd, stdfd);
-			iscmd_inbuilt_in(cmd, shell);
+			iscmd_inbuilt_in(cmd, shell, pid);
 			ex_cute(cmd, shell);
 			exit(0);
 		}
@@ -41,6 +41,7 @@ int		direction_pipeline(t_list *cmd_list, t_shell *shell)
 		{
 			if (cmd->pipeline_state & 1)
 				dup2(cmd->pipeout[0], STDIN_FILENO);
+			iscmd_inbuilt_in(cmd, shell, pid);
 			close(cmd->pipeout[1]);
 			waitpid(pid, NULL, 0);
 			// if (cmd->fd_stdin != 0)
@@ -109,16 +110,23 @@ void close_pipe(t_cmd *cmd, int *std)
 }
 
 
-int		iscmd_inbuilt_in(t_cmd *cmd, t_shell *shell)
+int		iscmd_inbuilt_in(t_cmd *cmd, t_shell *shell, int pid)
 {
 	dprintf(2, "Check built in %s\n", cmd->cmd);
-	if (ft_strcmp(cmd->cmd, "echo") == 0)
+	if (!pid && ft_strcmp(cmd->cmd, "echo") == 0)
 		ft_echo(cmd->argval);
+	else if (!pid && ft_strcmp(cmd->cmd, "env") == 0)
+		ft_env(shell->env, shell);
+	else if (!pid && ft_strcmp(cmd->cmd, "pwd") == 0)
+	{
+		ft_pwd(shell);
+	}
+	else if (pid && ft_strcmp(cmd->cmd, "export") == 0)
+	{
+		ft_export(cmd, shell);
+	}
 	// else if (ft_strcmp(cmd->cmd, "cd")
-	// else if (ft_strcmp(cmd->cmd, "pwd")
-	// else if (ft_strcmp(cmd->cmd, "export")
 	// else if (ft_strcmp(cmd->cmd, "unset")
-	// else if (ft_strcmp(cmd->cmd, "env")
 	// else if (ft_strcmp(cmd->cmd, "exit")
 	return (0);
 }

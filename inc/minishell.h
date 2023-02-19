@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/19 13:16:56 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/19 17:30:06 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@
 # include <readline/history.h>
 # include <fcntl.h>
 # include <sys/wait.h>
-
+# include <limits.h>
 # include "../libft/libft.h"
 # include "my_color.h"
 # include "my_const.h"
 # include "here_doc.h"
 # include "builtin.h"
+
 
 // @attribut pipeline state =>
 // keep state too how to close pipe and pipe open or not
@@ -144,8 +145,8 @@ void	open_for_read(int arrow_count, char *str,t_cmd **curcmd);
 void    add_command_to_null_cmd(t_cmd *cmd, char *str);
 int		*to_pipe(t_cmd *cmd);
 
-int		iscmd_inbuilt_in(t_cmd *cmd, t_shell *shell);
-
+int		iscmd_inbuilt_in(t_cmd *cmd, t_shell *shell, int pid);
+char	**ft_str2d_addmem(char **str, char *new_str);
 // clear
 void	clear_hd(void *vtf_cmd);
 
@@ -155,4 +156,10 @@ void	clear_hd(void *vtf_cmd);
 
 // just utility
 void	put_error(char	*str); // <- red color in stderr
+
+
+// builtin 
+void	ft_env(char **env, t_shell *shell);
+int		ft_pwd(t_shell *shell);
+int	ft_export(t_cmd *cmd, t_shell *shell);
 #endif
