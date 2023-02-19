@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:12:14 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/19 04:25:51 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/19 13:19:31 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,9 @@ void lexical_analysis(t_parser *parser, t_shell *shell)
 		if (tmp_node)
 			tmp_node = tmp_node->next;
 	}
-	// optimise with queue style
 	ft_lstadd_back(&shell->cmd_list, ft_lstnew(tmp_cmd));
 	// @debug printf cmd list
-	ft_lstiter(shell->cmd_list, cmd_dump);
+	//ft_lstiter(shell->cmd_list, cmd_dump);
 
 	direction_pipeline(shell->cmd_list, shell);
 	ft_lstclear(&shell->cmd_list, cmd_clear);
@@ -125,7 +124,7 @@ int	*to_pipe(t_cmd *cmd)
 		cmd->pipeline_state += 1;
 	}
 	// @debug 
-	dprintf(2,"PIPE {"RED"%d"WHITE"} [%d][%d] \n",pindex, cmd->pipeout[0], cmd->pipeout[1]);
+	//dprintf(2,"PIPE {"RED"%d"WHITE"} [%d][%d] \n",pindex, cmd->pipeout[0], cmd->pipeout[1]);
 	pindex++;
 	return (cmd->pipeout);
 }
@@ -142,7 +141,7 @@ char    **ft_str2drelloc_free(char **str, int size)
 		new_str[i] = ft_strdup(str[i]);
 		i++;
 	}
-	// ft_str2diter(str, free);
+	// ft_str2diter(str, &free);
 	// free(str);
 	return (new_str);
 }

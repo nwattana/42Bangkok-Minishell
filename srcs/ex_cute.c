@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 17:25:51 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/19 05:02:24 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/19 13:24:16 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int		direction_pipeline(t_list *cmd_list, t_shell *shell)
 		{
 			// child program
 			close_pipe(cmd, stdfd);
+			iscmd_inbuilt_in(cmd, shell);
 			ex_cute(cmd, shell);
 			exit(0);
 		}
@@ -57,20 +58,19 @@ int		direction_pipeline(t_list *cmd_list, t_shell *shell)
 // pipein [][] from previose cmd <- current cmd command will read from read end of this pipe
 // pipeout [][] from currebt cmd <- current cmd will write to write to write end of this pipe
 // pipeline_state -> readfrom pipe += 1 write to pipe += 2
-
 // @debug a lot of bug below
 void close_pipe(t_cmd *cmd, int *std)
 {
-	cmd_dump(cmd);
+	//cmd_dump(cmd);
 	if (cmd->pipeline_state & 2)
 	{
-		dprintf(2,CYAN"Close pipe in : write end {%d}\n", cmd->pipein[1]);
+		//dprintf(2,CYAN"Close pipe in : write end {%d}\n", cmd->pipein[1]);
 		close(cmd->pipein[1]);
 	}
 	// check
 	if (cmd->pipeline_state & 1)
 	{
-		dprintf(2,CYAN"Close pipe out : read end {%d}\n", cmd->pipeout[0]);
+		//dprintf(2,CYAN"Close pipe out : read end {%d}\n", cmd->pipeout[0]);
 		close(cmd->pipeout[0]);
 	}
 
@@ -81,48 +81,47 @@ void close_pipe(t_cmd *cmd, int *std)
 	}
 	else if (cmd->fd_stdin < 0)
 	{
-		ft_putstr_fd(RED"FILE IN NOT FOUND : ERROR\n"RESET, 2);
+		//ft_putstr_fd(RED"FILE IN NOT FOUND : ERROR\n"RESET, 2);
 		exit(0);
 	}
 	else
 	{
-		dprintf(2,WHITE"Copy stdin of file  TO  fd 0 cmd "RED"{%s}"WHITE" in %d\n", cmd->cmd, cmd->fd_stdin);
+		//dprintf(2,WHITE"Copy stdin of file  TO  fd 0 cmd "RED"{%s}"WHITE" in %d\n", cmd->cmd, cmd->fd_stdin);
 		dup2(cmd->fd_stdin, STDIN_FILENO);
 	}
 
 	// @debug STDOUT -> direction
 	if (cmd->fd_stdout == 1)
 	{
-		dprintf(2,WHITE"RESET STDOUT for cmd "RED"{%s}"WHITE" in %d\n", cmd->cmd, cmd->fd_stdout);
+		//dprintf(2,WHITE"RESET STDOUT for cmd "RED"{%s}"WHITE" in %d\n", cmd->cmd, cmd->fd_stdout);
 		dup2(std[1], STDOUT_FILENO);
 	}
 	else if (cmd->fd_stdout < 0)
 	{
-		ft_putstr_fd(RED"FILE OUT NOT FOUND : ERROR\n"RESET, 2);
+		//ft_putstr_fd(RED"FILE OUT NOT FOUND : ERROR\n"RESET, 2);
 		exit(0);
 	}
 	else
 	{
-		dprintf(2,WHITE"Open PIPEOUT of cmd "RED"{%s}"WHITE" in %d\n", cmd->cmd, cmd->pipeout[1]);
+		//dprintf(2,WHITE"Open PIPEOUT of cmd "RED"{%s}"WHITE" in %d\n", cmd->cmd, cmd->pipeout[1]);
 		dup2(cmd->fd_stdout, STDOUT_FILENO);
 	}
 }
 
 
-int		iscmd_inbuilt_in(char *cmd, t_shell *shell)
+int		iscmd_inbuilt_in(t_cmd *cmd, t_shell *shell)
 {
-	
+	dprintf(2, "Check built in %s\n", cmd->cmd);
+	if (ft_strcmp(cmd->cmd, "echo") == 0)
+		ft_echo(cmd->argval);
+	// else if (ft_strcmp(cmd->cmd, "cd")
+	// else if (ft_strcmp(cmd->cmd, "pwd")
+	// else if (ft_strcmp(cmd->cmd, "export")
+	// else if (ft_strcmp(cmd->cmd, "unset")
+	// else if (ft_strcmp(cmd->cmd, "env")
+	// else if (ft_strcmp(cmd->cmd, "exit")
+	return (0);
 }
-
-
-// void	close_pipe2(t_cmd *cmd, int *std)
-// {
-// 	// if pipestd
-// 	if (cmd->pipeline_state & 1)
-// 	{
-		
-// 	}
-// }
 
 
 char    *check_access(t_cmd *cmd, t_shell *shell)

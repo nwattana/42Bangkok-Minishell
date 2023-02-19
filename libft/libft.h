@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 23:56:26 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/19 12:00:21 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/19 12:35:41 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,5 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 void	ft_lstadd_back(t_list **lst, t_list *news);
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-int		ft_strcmp(const char *str1, char *str2);
 
 #endif
