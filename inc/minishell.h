@@ -6,7 +6,15 @@
 /*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/02/21 03:45:42 by lkaewsae         ###   ########.fr       */
+=======
+<<<<<<< HEAD
+/*   Updated: 2023/02/21 01:08:40 by nwattana         ###   ########.fr       */
+=======
+/*   Updated: 2023/02/21 01:04:14 by lkaewsae         ###   ########.fr       */
+>>>>>>> 58ac41ed3202c24fdc45d9099b727ef182412111
+>>>>>>> 165e408bb7d52839f2400a2186bf002b11fa8ad5
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +30,7 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <limits.h>
+# include <termios.h>
 # include "../libft/libft.h"
 # include "my_color.h"
 # include "my_const.h"
@@ -29,6 +38,7 @@
 # include "my_builtin.h"
 # include "my_struct.h"
 
+t_shell	*G_SHELL;
 // parser smol expand
 int		add_char(t_parser *parser, char c);
 int		add_lexel(t_parser *parser, int type);
@@ -96,6 +106,6 @@ void	path_update(t_shell *shell);
 
 // signal
 void	set_signal(t_shell *shell);
-// void	sig_handling(int sig);
-
+void	sig_handling(int sig);
+void	sigterm(void);
 #endif

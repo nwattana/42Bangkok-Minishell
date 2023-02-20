@@ -18,20 +18,29 @@ RESET=\033[0m
 
 UNAME = $(shell uname -s)
 ifeq ($(UNAME), Linux)
+<<<<<<< HEAD
 	LREAD_DIR = -L/usr/local/lib -I/usr/local/include/ -lreadline
 else
 	LREAD_DIR = -L/usr/local/opt/readline -I/usr/local/opt/readline/include -lreadline
+=======
+	LREAD_DIR =   -I/usr/local/include/ -lreadline -L/usr/local/lib
+	RINC= -I/usr/local/include/
+else 
+	LREAD_DIR = -I/usr/local/opt/readline/include -lreadline -L/usr/local/opt/readline/lib
+	RINC= -I/usr/local/opt/readline/include
+>>>>>>> 165e408bb7d52839f2400a2186bf002b11fa8ad5
 endif
 
-INC=-iquote./inc $(LREAD_DIR) $(LIBFT)
+INC=$(LREAD_DIR) $(LIBFT)
+
 
 all:$(NAME)
 
-%.o:%.c libft
+%.o:%.c
 	@echo "$(GREEN)Compile $(BLUE)$<$(RESET)"
-	@$(CC) $(CFLAGS) -iquote./inc -c $< -o $@ -g
+	@$(CC) $(CFLAGS) $(RINC) -iquote./inc -c $< -o $@ -g
 
-$(NAME):$(OBJ)
+$(NAME):$(OBJ) libft
 	@echo "$(GREEN)Compile $(RESET)$(BLUE)$(NAME)$(RESET)"
 	@printf "$(RED)$(SEP)\nCOMPILE STATEMENT\n$(SEP)\n"
 	-$(CC) $(CFLAGS) $(OBJ) $(INC) -o $(NAME)
