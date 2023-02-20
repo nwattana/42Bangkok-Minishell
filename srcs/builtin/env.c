@@ -6,11 +6,11 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:00:54 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/19 22:03:52 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:34:40 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/builtin.h"
+#include "../../inc/my_builtin.h"
 #include<stdio.h>
 
 void ft_env(char **env, t_shell *shell)
@@ -18,7 +18,6 @@ void ft_env(char **env, t_shell *shell)
 	int i;
 	char *trim;
 
-	dprintf(2,"Built in\n");
 	trim = ft_strtrim(shell->line, " ");
 	if (ft_strcmp(trim, "env") != 0)
 	{

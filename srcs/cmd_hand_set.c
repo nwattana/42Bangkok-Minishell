@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 22:36:47 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/19 23:41:22 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:15:01 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_cmd	*cmd_hand_gen(char *cmdin, char *argv)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	cmd = create_cmd(cmdin);
 	add_argument(cmd, argv);

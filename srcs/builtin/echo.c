@@ -6,11 +6,11 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:58:22 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/20 02:20:59 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:32:41 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/builtin.h"
+#include "../../inc/my_builtin.h"
 #include "../../inc/debug.h"
 int	ft_echo(t_cmd *cmd)
 {

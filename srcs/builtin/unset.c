@@ -6,11 +6,11 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:01:18 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/19 22:24:11 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:33:00 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/builtin.h"
+#include "../../inc/my_builtin.h"
 
 static int	set_cancle(t_cmd *cmd, t_shell *shell);
 
@@ -29,9 +29,7 @@ int	ft_unset(t_cmd *cmd, t_shell *shell)
 	while (shell->env[i])
 	{
 		if (shell->env[i][0] == '\n')
-		{
 			free(shell->env[i]);
-		}
 		else
 		{
 			newenv[j] = shell->env[i];
@@ -45,15 +43,13 @@ int	ft_unset(t_cmd *cmd, t_shell *shell)
 	return (0);
 }
 
-int		ft_str2dlen(char **str)
+int	ft_str2dlen(char **str)
 {
 	int		i;
 
 	i = 0;
 	while (str[i])
-	{	
 		i++;
-	}
 	return (i);
 }
 
@@ -63,7 +59,7 @@ static int	set_cancle(t_cmd *cmd, t_shell *shell)
 	int	j;
 	int	newlen;
 	int	arglen;
-	
+
 	newlen = 0;
 	i = 1;
 	while (cmd->argval[i])
@@ -75,13 +71,12 @@ static int	set_cancle(t_cmd *cmd, t_shell *shell)
 			if (ft_strncmp(cmd->argval[i], shell->env[j], arglen) == 0)
 			{
 				newlen++;
-				shell->env[j][0]='\n';
-				break ; 
+				shell->env[j][0] = '\n';
+				break ;
 			}
 			j++;
 		}
 		i++;
 	}
-	// dprintf(2, CYAN"%d\n", newlen);
 	return (newlen);
 }

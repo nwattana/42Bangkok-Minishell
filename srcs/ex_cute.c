@@ -6,12 +6,11 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 17:25:51 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 13:30:40 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:39:55 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-# include "../inc/debug.h"
 
 int	check_isparent_cmd(char *cmd);
 
@@ -39,7 +38,7 @@ int		direction_pipeline(t_list *cmd_list, t_shell *shell)
 			{
 				ex_cute(cmd, shell);
 			}
-			exit(0);
+			exit(1);
 		}
 		else
 		{
@@ -47,7 +46,8 @@ int		direction_pipeline(t_list *cmd_list, t_shell *shell)
 				dup2(cmd->pipeout[0], STDIN_FILENO);
 			iscmd_inbuilt_in(cmd, shell, pid);
 			close(cmd->pipeout[1]);
-			waitpid(pid, NULL, 0);
+			waitpid(pid, &cmd->cmd_exit_status, 0);
+			cmd->cmd_pre_exit_status = WEXITSTATUS(cmd->cmd_exit_status);
 			// forgot what is this ??
 			// V
 			// if (cmd->fd_stdin != 0)
@@ -68,53 +68,39 @@ int		direction_pipeline(t_list *cmd_list, t_shell *shell)
 // @debug a lot of bug below
 void close_pipe(t_cmd *cmd, int *std)
 {
-	//cmd_dump(cmd);
 	if (cmd->pipeline_state & 2)
 	{
-		//dprintf(2,CYAN"Close pipe in : write end {%d}\n", cmd->pipein[1]);
 		close(cmd->pipein[1]);
 	}
-	// check
 	if (cmd->pipeline_state & 1)
 	{
-		//dprintf(2,CYAN"Close pipe out : read end {%d}\n", cmd->pipeout[0]);
 		close(cmd->pipeout[0]);
 	}
-
-	/// 
 	if (cmd->fd_stdin == 0)
 	{
 		ft_putstr_fd("", 1);
 	}
 	else if (cmd->fd_stdin < 0)
 	{
-		//ft_putstr_fd(RED"FILE IN NOT FOUND : ERROR\n"RESET, 2);
 		exit(0);
 	}
 	else
 	{
-		//dprintf(2,WHITE"Copy stdin of file  TO  fd 0 cmd "RED"{%s}"WHITE" in %d\n", cmd->cmd, cmd->fd_stdin);
 		dup2(cmd->fd_stdin, STDIN_FILENO);
 	}
-
-	// @debug STDOUT -> direction
 	if (cmd->fd_stdout == 1)
 	{
-		//dprintf(2,WHITE"RESET STDOUT for cmd "RED"{%s}"WHITE" in %d\n", cmd->cmd, cmd->fd_stdout);
 		dup2(std[1], STDOUT_FILENO);
 	}
 	else if (cmd->fd_stdout < 0)
 	{
-		//ft_putstr_fd(RED"FILE OUT NOT FOUND : ERROR\n"RESET, 2);
 		exit(0);
 	}
 	else
 	{
-		//dprintf(2,WHITE"Open PIPEOUT of cmd "RED"{%s}"WHITE" in %d\n", cmd->cmd, cmd->pipeout[1]);
 		dup2(cmd->fd_stdout, STDOUT_FILENO);
 	}
 }
-
 
 int		iscmd_inbuilt_in(t_cmd *cmd, t_shell *shell, int pid)
 {
@@ -124,7 +110,6 @@ int		iscmd_inbuilt_in(t_cmd *cmd, t_shell *shell, int pid)
 		ft_env(shell->env, shell);
 	else if (!pid && ft_strcmp(cmd->cmd, "pwd") == 0)
 		ft_pwd(shell);
-	// pid = 0 but is command
 	else if (pid && ft_strcmp(cmd->cmd, "export") == 0)
 		ft_export(cmd, shell);
 	else if (pid && ft_strcmp(cmd->cmd, "unset") == 0)
@@ -151,7 +136,6 @@ int	check_isparent_cmd(char *cmd)
 	return (1);
 }
 
-
 char    *check_access(t_cmd *cmd, t_shell *shell)
 {
 	char    *path;
@@ -159,10 +143,8 @@ char    *check_access(t_cmd *cmd, t_shell *shell)
 
 	i = 0;
 	path = cmd->cmd;
-	if (access(path,F_OK) == 0)
-	{
+	if (access(path , F_OK) == 0)
 		return (path);
-	}
 	path_update(shell);
 	while (shell->path[i])
 	{
@@ -192,10 +174,13 @@ void	ex_cute(t_cmd *cmd, t_shell *shell)
 	path = check_access(cmd, shell);
 	if (path == NULL)
 	{
-		ft_putstr_fd(RED"COMMAND: NOT FOUND!!\n"RESET, 2);
-		exit(1);
+		ft_putstr_fd(RED"MINISHELL: "RESET, 2);
+		ft_putstr_fd(cmd->argval[0], 2);
+		ft_putstr_fd(RED": COMMAND: NOT FOUND!!: ", 2);
+		ft_putendl_fd(RESET"", 2);
+		cmd->cmd_pre_exit_status = 127;
+		exit(127);
 	}
-	dprintf(2, "Execve with %s\n", path);
 	if (execve(path, cmd->argval, NULL) == -1)
 	{
 		ft_putstr_fd(RED"ERROR: Command Execve error\n",2);

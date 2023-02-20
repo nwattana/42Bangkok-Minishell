@@ -6,23 +6,23 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 22:52:43 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 02:27:58 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:19:57 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/minishell.h"
+#include "../inc/minishell.h"
 
 /// @brief To handle redirect out in both mode
 /// @param start content == lexer list
 /// @param cur_cmd -> t_cmd
 /// @return adress of node that be word or error if not found word
-t_list  *redir_out(t_list *start, t_cmd **cur_cmd)
+t_list	*redir_out(t_list *start, t_cmd **cur_cmd)
 {
-	t_list  *end;
-	t_lexel *lex;
-	t_cmd   *tmp_cmd;
-	int     arrow_count;
-	int     tmp_type;
+	t_list	*end;
+	t_lexel	*lex;
+	t_cmd	*tmp_cmd;
+	int		arrow_count;
+	int		tmp_type;
 
 	arrow_count = 0;
 	if (!cur_cmd || !start)
@@ -38,8 +38,8 @@ t_list  *redir_out(t_list *start, t_cmd **cur_cmd)
 			if (arrow_count <= 2)
 				open_for_write(arrow_count, lex->str, cur_cmd);
 			else
-				ft_putstr_fd(RED"ERROR\n"RESET, 2);
-			break;
+				ft_putstr_fd(RED"Redirect ERROR\n"RESET, 2);
+			break ;
 		}
 		else
 		{
@@ -48,12 +48,12 @@ t_list  *redir_out(t_list *start, t_cmd **cur_cmd)
 		}
 		start = start->next;
 	}
-   return (start); 
+	return (start);
 }
 
-void    open_for_write(int arrow_count, char *str, t_cmd **curcmd)
+void	open_for_write(int arrow_count, char *str, t_cmd **curcmd)
 {
-	int     file_to_open;
+	int	file_to_open;
 
 	if (!curcmd)
 		return ;
@@ -68,6 +68,4 @@ void    open_for_write(int arrow_count, char *str, t_cmd **curcmd)
 	else if (arrow_count == 2)
 		file_to_open = open(str, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	(*curcmd)->fd_stdout = file_to_open;
-	// to print Where stdout direction
-	// dprintf(2, "STD OUT = %d\n", file_to_open);
 }

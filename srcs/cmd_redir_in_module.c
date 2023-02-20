@@ -6,19 +6,19 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 22:56:06 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/18 12:06:29 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:23:02 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/minishell.h"
+#include "../inc/minishell.h"
 
-t_list  *redir_in(t_list *start, t_cmd **cur_cmd)
+t_list	*redir_in(t_list *start, t_cmd **cur_cmd)
 {
-	t_list  *end;
-	t_lexel *lex;
-	t_cmd   *tmp_cmd;
-	int     tmp_type;
-	int     arrow_count;
+	t_list	*end;
+	t_lexel	*lex;
+	t_cmd	*tmp_cmd;
+	int		tmp_type;
+	int		arrow_count;
 
 	arrow_count = 0;
 	if (!cur_cmd || !start)
@@ -27,12 +27,12 @@ t_list  *redir_in(t_list *start, t_cmd **cur_cmd)
 	while (start)
 	{
 		lex = ((t_lexel *)start->content);
-		if (lex->type  == tmp_type)
+		if (lex->type == tmp_type)
 			arrow_count++;
 		else if (lex->type == D_WORD)
 		{
 			open_for_read(arrow_count, lex->str, cur_cmd);
-			break;
+			break ;
 		}
 		else
 		{
@@ -44,11 +44,12 @@ t_list  *redir_in(t_list *start, t_cmd **cur_cmd)
 	return (start);
 }
 
-/// @brief To Handle heredoc and redirect in open file readmode and give it to cmd->fdstdin
+/// @brief To Handle heredoc and redirect in open 
+/// file readmode and give it to cmd->fdstdin
 /// @param arrow_count 
 /// @param str 
 /// @param curcmd 
-void	open_for_read(int arrow_count, char *str,t_cmd **curcmd)
+void	open_for_read(int arrow_count, char *str, t_cmd **curcmd)
 {
 	int		file_to_open;
 	char	*buffer;
@@ -72,9 +73,9 @@ void	open_for_read(int arrow_count, char *str,t_cmd **curcmd)
 		(*curcmd)->heredoc_filename = hd_name(str);
 		(*curcmd)->here_doc_status = 1;
 		tmp_hd = get_here_doc(str);
-		 file_to_open = open((*curcmd)->heredoc_filename, \
-		 	O_WRONLY | O_CREAT | O_TRUNC, \
-			0777);
+		file_to_open = open((*curcmd)->heredoc_filename, \
+		O_WRONLY | O_CREAT | O_TRUNC, \
+		0777);
 		write(file_to_open, tmp_hd, ft_strlen(tmp_hd));
 		close(file_to_open);
 		file_to_open = open((*curcmd)->heredoc_filename, O_RDONLY);

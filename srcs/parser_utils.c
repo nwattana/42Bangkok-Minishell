@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:59:58 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 01:59:41 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:27:40 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	destroy_parser(t_parser *parser)
 	if (parser == NULL)
 		return ;
 	ft_lstclear(&parser->lexel_list, (void*)&lexel_del);
-	ft_lstclear(&parser->cur_word, (void*)&free);
+	ft_lstclear(&parser->cur_word, (void*)&free_null);
 }
 
 // free lexer element
@@ -84,8 +84,6 @@ int skip_space(char *line)
 	return (i);
 }
 
-/// @brief why char* not only char
-/// @return 
 int	ft_isdirection(char *c)
 {
 	if (c == NULL)
@@ -181,10 +179,6 @@ char *ft_lst_groupword(t_list **lst)
 	str[i] = '\0';
 	return (str);
 }
-
-
-
-
 
 t_lexel *lexel_new(char *str, int type)
 {

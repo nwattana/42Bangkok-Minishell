@@ -6,15 +6,15 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 22:46:51 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/18 12:08:31 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:16:41 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_cmd   *create_cmd(char *str)
+t_cmd	*create_cmd(char *str)
 {
-	t_cmd   *new_cmd;
+	t_cmd	*new_cmd;
 
 	new_cmd = malloc(sizeof(t_cmd));
 	if (!new_cmd)
@@ -23,7 +23,7 @@ t_cmd   *create_cmd(char *str)
 	if (str != NULL)
 	{
 		new_cmd->cmd = ft_strdup(str);
-		new_cmd->argval[0] =ft_strdup(str);
+		new_cmd->argval[0] = ft_strdup(str);
 		new_cmd->argcount = 1;
 	}
 	else
@@ -40,17 +40,17 @@ t_cmd   *create_cmd(char *str)
 	return (new_cmd);
 }
 
-void    add_command_to_null_cmd(t_cmd *cmd, char *str)
+void	add_command_to_null_cmd(t_cmd *cmd, char *str)
 {
 	cmd->argval[0] = ft_strdup(str);
 	cmd->cmd = ft_strdup(str);
 	cmd->argcount++;
 }
 
-void    cmd_clear(void *vtf_cmd)
+void	cmd_clear(void *vtf_cmd)
 {
-	int i;
-	t_cmd *cmd;
+	int		i;
+	t_cmd	*cmd;
 
 	cmd = (t_cmd *)vtf_cmd;
 	i = 0;
@@ -68,9 +68,9 @@ void    cmd_clear(void *vtf_cmd)
 	cmd = NULL;
 }
 
-t_cmd *lst_getcmd(t_list *lst)
+t_cmd	*lst_getcmd(t_list *lst)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	if (!lst)
 		return (NULL);
@@ -78,10 +78,11 @@ t_cmd *lst_getcmd(t_list *lst)
 	return (cmd);
 }
 
-/// @brief add_argument to argument list however just alloc for 10 pointer char if execeed it will be realloced
+/// @brief add_argument to argument list however just 
+/// alloc for 10 pointer char if execeed it will be realloced
 /// @param cmd 
 /// @param str 
-void    add_argument(t_cmd *cmd, char *str)
+void	add_argument(t_cmd *cmd, char *str)
 {
 	if (!cmd)
 		return ;

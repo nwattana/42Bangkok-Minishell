@@ -6,23 +6,18 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:01:03 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/19 23:41:57 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:34:42 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/builtin.h"
-
+#include "../../inc/my_builtin.h"
 
 // check input =
 // if there is no argument env have to sort but still the same env
 // ex. export p=p -> env
 // if we have valuable just change value if not will add new value
 // new creat case (env in env)
-//
-
 // ft_export(char)
-
-
 // do it in main
 int	ft_export(t_cmd *cmd, t_shell *shell)
 {
@@ -30,26 +25,30 @@ int	ft_export(t_cmd *cmd, t_shell *shell)
 	char	i;
 	char	*key;
 	char	*content;
-	char *envi;
-	
+	char	*envi;
+
 	i = 1;
-	while(cmd->argval[i])
+	if (cmd->argcount == 1)
+		return (put_sort_env(shell));
+	while (cmd->argval[i])
 	{
 		if (cmd->argval[i][0] == '\0')
 			return (1);
-		content = ft_strchr(cmd->argval[i],'=');
+		content = ft_strchr(cmd->argval[i] , '=');
 		if (content == NULL)
 		{
 			i++;
-			continue;
+			continue ;
 		}
+		
 		if (content[0] != '\0')
 		{
 			key = ft_substr(cmd->argval[i], 0, &content[1] -  cmd->argval[i]);
 			free(key);
 		}
 
-		int j=0;
+		int j;
+		j = 0;
 		while (shell->env[j] && key != NULL)
 		{
 			envi = ft_strnstr(shell->env[j], key, ft_strlen(key));
@@ -57,6 +56,7 @@ int	ft_export(t_cmd *cmd, t_shell *shell)
 				break;
 			j++;
 		}
+
 		char *tmp;
 		if (envi != NULL)
 		{
@@ -65,9 +65,9 @@ int	ft_export(t_cmd *cmd, t_shell *shell)
 			free(envi);
 			j++;
 		}
+
 		if (envi == NULL)
 		{
-
 			shell->env = ft_str2d_addmem(shell->env, cmd->argval[i]);
 		}
 		i++;

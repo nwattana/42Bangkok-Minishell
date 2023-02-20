@@ -6,12 +6,11 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 02:02:33 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:42:10 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-#include "../inc/debug.h"
 
 int main(int argc, char **argv, char **env)
 {
@@ -27,8 +26,8 @@ int main(int argc, char **argv, char **env)
 		if (rl_line == NULL)
 			break;
 		process_line(rl_line, &shell);
-		// if (ft_strlen(rl_line) > 0)
-		// 	add_history(rl_line);
+		if (ft_strlen(rl_line) > 0)
+			add_history(rl_line);
 		free(rl_line);
 	}
 	return (0);

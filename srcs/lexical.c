@@ -6,16 +6,13 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:12:14 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 13:36:04 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:15:45 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/minishell.h"
-# include "../inc/debug.h"
 
 
-/// @brief create command struct
-/// @param parser 
 void lexical_analysis(t_parser *parser, t_shell *shell)
 {   
 	int i = 0;
@@ -23,10 +20,8 @@ void lexical_analysis(t_parser *parser, t_shell *shell)
 	t_cmd   *tmp_cmd;
 	int     command_start;
 	t_list  *tmp_node;
-	// int		pipe_is_open;
 	int		*from_pipe;
 
-	// initial
 	tmp_node = parser->lexel_list;
 	command_start = 0;
 	tmp_cmd = NULL;
@@ -54,7 +49,6 @@ void lexical_analysis(t_parser *parser, t_shell *shell)
 				add_argument(tmp_cmd, tmp_lexel->str);
 			}
 		}
-
 		if (tmp_lexel->type == D_REDIR_IN)
 		{
 			tmp_node = redir_in(tmp_node, &tmp_cmd);
@@ -65,9 +59,6 @@ void lexical_analysis(t_parser *parser, t_shell *shell)
 		}
 		if (tmp_lexel->type == D_PIPE)
 		{
-			// combination of pipe and redir
-			// echo cc >> hello | cat -e -> cat do nothing
-			// create piping in to next cmd
 			from_pipe = to_pipe(tmp_cmd);
 			if (tmp_cmd != NULL)
 			{
@@ -78,29 +69,56 @@ void lexical_analysis(t_parser *parser, t_shell *shell)
 				ft_putstr_fd(RED"Error: PIPE From Nothing is NULL\n"RESET, 2);
 			}
 			tmp_cmd = create_cmd(NULL);
-			dprintf(2, "From PIPE %d %d\n", from_pipe[0], from_pipe[1]);
 			tmp_cmd->fd_stdin = from_pipe[0];
 			tmp_cmd->pipein = from_pipe;
 			tmp_cmd->pipeline_state += 2;
 			command_start = 0;
-			// make write end
-			// finish write end
-			// create read end -> null str name
-			// set cmd-start to NULL
 		}
 		if (tmp_node)
 			tmp_node = tmp_node->next;
 	}
 	ft_lstadd_back(&shell->cmd_list, ft_lstnew(tmp_cmd));
-	// @debug printf cmd list
-	//ft_lstiter(shell->cmd_list, cmd_dump);
-
 	direction_pipeline(shell->cmd_list, shell);
-
-//	ft_lstclear(&shell->lexel_list)
+	get_status(shell);
 	ft_lstclear(&shell->cmd_list, cmd_clear);
+	destroy_parser(parser);
 }
 
+void	get_status(t_shell *sh)
+{
+	t_list	*tmp;
+
+	if (!sh)
+		return (ft_putendl_fd(RED"SHELL is missing?"RESET, 2));
+	tmp = sh->cmd_list;
+	while (tmp && tmp->next)
+	{
+		tmp = tmp->next;
+	}
+	sh->last_status = ((t_cmd *)tmp->content)->cmd_pre_exit_status % 256;
+}
+
+void	clean_parser(void *parser)
+{
+	t_parser	*pr;
+
+	pr = (t_parser *)parser;
+	clean_lexel(pr->tmp_lexel);
+}
+
+void	clean_lexel(void *lexel)
+{
+	t_lexel		*lex;
+
+	if (lex != NULL)
+	{
+		if (lex->str)
+			free(lex->str);
+		lex->str = NULL;
+		free(lex->str);
+		lex = NULL;
+	}
+}
 
 /// @brief  add current command direction out
 /// @param cmd 
@@ -109,8 +127,6 @@ int	*to_pipe(t_cmd *cmd)
 	static int pindex;
 	
 	pipe(cmd->pipeout);
-	// already have fd out
-	// but should have pipe to next command
 	if (cmd->fd_stdout != 1)
 	{
 		close(cmd->pipeout[0]);
@@ -120,8 +136,6 @@ int	*to_pipe(t_cmd *cmd)
 		cmd->fd_stdout = cmd->pipeout[1];
 		cmd->pipeline_state += 1;
 	}
-	// @debug 
-	//dprintf(2,"PIPE {"RED"%d"WHITE"} [%d][%d] \n",pindex, cmd->pipeout[0], cmd->pipeout[1]);
 	pindex++;
 	return (cmd->pipeout);
 }
@@ -138,8 +152,8 @@ char    **ft_str2drelloc_free(char **str, int size)
 		new_str[i] = ft_strdup(str[i]);
 		i++;
 	}
-	// ft_str2diter(str, &free);
-	// free(str);
+	ft_str2diter(str, &free);
+	free(str);
 	return (new_str);
 }
 
