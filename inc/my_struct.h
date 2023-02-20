@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:30:15 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 18:12:16 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 01:25:10 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_shell
 	int					sh_stdout;
 	t_list				*cmd_list;
 	struct sigaction	signo;
+	struct sigaction	signquit;
 }				t_shell;
 
 #endif

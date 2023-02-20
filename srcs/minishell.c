@@ -6,17 +6,20 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 17:42:10 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 01:30:29 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+extern	t_shell	*G_SHELL;
 
 int main(int argc, char **argv, char **env)
 {
 	char		*rl_line;
 	t_shell		shell;
 
+	G_SHELL = &shell;
 	if (argc == 0)
 		(void)argv;
 	init_shell(&shell, env);
@@ -24,7 +27,11 @@ int main(int argc, char **argv, char **env)
 	{
 		rl_line = readline(PROMPT);
 		if (rl_line == NULL)
+		{
+			ft_putstr_fd(PROMPT"exit", 0);
+			univesal_clear(&shell);
 			break;
+		}
 		process_line(rl_line, &shell);
 		if (ft_strlen(rl_line) > 0)
 			add_history(rl_line);

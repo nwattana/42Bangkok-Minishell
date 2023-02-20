@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 18:05:52 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 01:08:40 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <limits.h>
+# include <termios.h>
 # include "../libft/libft.h"
 # include "my_color.h"
 # include "my_const.h"
@@ -29,6 +30,7 @@
 # include "my_builtin.h"
 # include "my_struct.h"
 
+t_shell	*G_SHELL;
 // parser smol expand
 int		add_char(t_parser *parser, char c);
 int		add_lexel(t_parser *parser, int type);
@@ -95,5 +97,5 @@ void	path_update(t_shell *shell);
 // signal
 void	set_signal(t_shell *shell);
 void	sig_handling(int sig);
-
+void	sigterm(void);
 #endif
