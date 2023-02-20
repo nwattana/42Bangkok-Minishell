@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   shell_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:35:32 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 18:12:29 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 21:38:14 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void init_shell(t_shell *shell, char **env)
+void	init_shell(t_shell *shell, char **env)
 {
 	int		i;
 	char	*tmp;
@@ -23,9 +23,8 @@ void init_shell(t_shell *shell, char **env)
 	{
 		clone_env(shell, env);
 		tmp = get_env_from_key("PATH", shell);
-		shell->path = ft_split(tmp,':');
+		shell->path = ft_split(tmp, ':');
 		free(tmp);
-		// must re-assign when cd
 		tmp = get_env_from_key("PWD", shell);
 		shell->pwd = ft_strdup(tmp);
 		free(tmp);
@@ -38,36 +37,36 @@ void init_shell(t_shell *shell, char **env)
 
 void	ft_putstr_env(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	ft_putstr_fd(GREEN"",1);
+	ft_putstr_fd(GREEN"", 1);
 	while (str[i])
 	{
 		if (str[i] == '=')
 		{
-			ft_putstr_fd(RED"",1);
+			ft_putstr_fd(RED"", 1);
 			write(1, str + i, 1);
-			ft_putstr_fd(BLUE"",1);
+			ft_putstr_fd(BLUE"", 1);
 		}
 		else
 			write(1, str + i, 1);
 		i++;
 	}
 	write(1, "\n", 1);
-	ft_putstr_fd(RESET"",1);
+	ft_putstr_fd(RESET"", 1);
 }
 
-void    ft_str2diter(char **str, void (*f)(void*))
+void	ft_str2diter(char **str, void (*f)(void*))
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (str[i])
-    {
-        f(str[i]);
-        i++;
-    }
+	i = 0;
+	while (str[i])
+	{
+		f(str[i]);
+		i++;
+	}
 }
 
 void	free_null(void	*val)
@@ -76,9 +75,9 @@ void	free_null(void	*val)
 	val = NULL;
 }
 
-void 	clone_env(t_shell *shell, char **env)
+void	clone_env(t_shell *shell, char **env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env[i])
@@ -92,4 +91,3 @@ void 	clone_env(t_shell *shell, char **env)
 	}
 	shell->env[i] = NULL;
 }
-

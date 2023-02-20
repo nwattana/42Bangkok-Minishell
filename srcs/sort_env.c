@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   sort_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:40:24 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 15:59:27 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 21:39:59 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	debug_put(void *vtf);
+void		debug_put(void *vtf);
 static char	**ft_str2ddup(char **str);
 static void	ft_str2dswap(char **a, char **b);
-int		put_sort_env(t_shell *shell)
+
+int	put_sort_env(t_shell *shell)
 {
 	char	**tmp;
 	int		i;
@@ -46,9 +47,9 @@ int		put_sort_env(t_shell *shell)
 
 void	debug_put(void *vtf)
 {
-	char *tmp;
-	tmp = (char *)vtf;
+	char	*tmp;
 
+	tmp = (char *)vtf;
 	ft_putstr_fd(RED"declare -x "GREEN, 1);
 	ft_putstr_fd(tmp, 1);
 	ft_putendl_fd(RESET"", 1);
@@ -56,7 +57,7 @@ void	debug_put(void *vtf)
 
 static void	ft_str2dswap(char **a, char **b)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = *a;
 	*a = *b;
@@ -65,8 +66,8 @@ static void	ft_str2dswap(char **a, char **b)
 
 static char	**ft_str2ddup(char **str)
 {
-	char **ret;
-	int	i;
+	char	**ret;
+	int		i;
 
 	i = 0;
 	while (str[i])

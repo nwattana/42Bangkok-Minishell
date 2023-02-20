@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/02/21 01:08:40 by nwattana         ###   ########.fr       */
+=======
+/*   Updated: 2023/02/21 01:04:14 by lkaewsae         ###   ########.fr       */
+>>>>>>> 58ac41ed3202c24fdc45d9099b727ef182412111
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +78,7 @@ char	*check_access(t_cmd *cmd, t_shell *shell);
 void	ex_cute(t_cmd *cmd, t_shell *shell);
 int		direction_pipeline(t_list *cmd_list, t_shell *shell);
 void	get_status(t_shell *sh);
+int		check_isparent_cmd(char *cmd);
 
 // redirect
 t_list	*redir_out(t_list *start, t_cmd **cur_cmd);
@@ -85,7 +90,7 @@ int		*to_pipe(t_cmd *cmd);
 int		iscmd_inbuilt_in(t_cmd *cmd, t_shell *shell, int pid);
 char	**ft_str2d_addmem(char **str, char *new_str);
 
-// universal clear 
+// universal clear
 void	univesal_clear(t_shell *shell);
 
 // env utils

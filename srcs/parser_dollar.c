@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   parser_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 01:28:08 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 01:38:30 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 21:12:54 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-
 static int		check_reserverd(t_parser *parser, char *line, t_shell *shell);
 static void		loop_add_char(t_parser *parser, char *val);
-int		get_dollar(t_parser *parser, char *line, t_shell *shell)
+
+int	get_dollar(t_parser *parser, char *line, t_shell *shell)
 {
-	int     i;
-	int     size;
+	int		i;
+	int		size;
 	char	*tmp;
 	char	*val;
 
@@ -41,7 +41,7 @@ int		get_dollar(t_parser *parser, char *line, t_shell *shell)
 static void	loop_add_char(t_parser *parser, char *val)
 {
 	int		size;
-	
+
 	size = 0;
 	while (val != NULL && val[size])
 	{
@@ -52,12 +52,12 @@ static void	loop_add_char(t_parser *parser, char *val)
 
 static int	check_reserverd(t_parser *parser, char *line, t_shell *shell)
 {
-	char *tmp;
-	int i;
+	char	*tmp;
+	int		i;
 
 	i = 0;
 	if (line[1] == '$')
-		tmp =ft_itoa(getpid());
+		tmp = ft_itoa(getpid());
 	else if (line[1] == '?')
 		tmp = ft_itoa(shell->last_status);
 	else

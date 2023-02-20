@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 01:30:29 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 01:54:46 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int main(int argc, char **argv, char **env)
 	return (0);
 }
 
-void process_line(char *line, t_shell *shell)
+void	process_line(char *line, t_shell *shell)
 {
 	t_parser	parser;
 	int			i;
@@ -89,13 +89,10 @@ void process_line(char *line, t_shell *shell)
 	// // @debug zone
 	//  debug_lstnext_show(parser.lexel_list);
 	//  dump_lexel_list(parser.lexel_list);
-
 	if (parser.quote_state != 0)
-		dprintf(2,RED"Error: quote not closed\n"RESET);
+		dprintf(2, RED"Error: quote not closed\n"RESET);
 	// @lexical analysis
 	lexical_analysis(&parser, shell);
-
-	
 	//@brif Note to delete parser element
 	//destroy_parser(&parser);
 }

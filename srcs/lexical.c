@@ -3,29 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   lexical.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:12:14 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 15:15:45 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 01:50:22 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/minishell.h"
+#include "../inc/minishell.h"
 
+void	lexical_analysis_extend(t_parser *parser, t_shell *shell)
+{
+	t_lexel	*tmp_lexel;
+	t_cmd	*tmp_cmd;
+	int		command_start;
+	t_list	*tmp_node;
+	int		*from_pipe;
+	if (tmp_lexel->type == D_REDIR_IN)
+		tmp_node = redir_in(tmp_node, &tmp_cmd);
+	if (tmp_lexel->type == D_REDIR_OUT)
+		tmp_node = redir_out(tmp_node, &tmp_cmd);
+	if (tmp_lexel->type == D_PIPE)
+	{
+		from_pipe = to_pipe(tmp_cmd);
+		if (tmp_cmd != NULL)
+			ft_lstadd_back(&shell->cmd_list, ft_lstnew(tmp_cmd));
+		else
+			ft_putstr_fd(RED"Error: PIPE From Nothing is NULL\n"RESET, 2);
+		tmp_cmd = create_cmd(NULL);
+		tmp_cmd->fd_stdin = from_pipe[0];
+		tmp_cmd->pipein = from_pipe;
+		tmp_cmd->pipeline_state += 2;
+		command_start = 0;
+	}
+}
 
-void lexical_analysis(t_parser *parser, t_shell *shell)
-{   
-	int i = 0;
-	t_lexel *tmp_lexel;
-	t_cmd   *tmp_cmd;
-	int     command_start;
-	t_list  *tmp_node;
+void	lexical_analysis(t_parser *parser, t_shell *shell)
+{
+	t_lexel	*tmp_lexel;
+	t_cmd	*tmp_cmd;
+	int		command_start;
+	t_list	*tmp_node;
 	int		*from_pipe;
 
 	tmp_node = parser->lexel_list;
 	command_start = 0;
 	tmp_cmd = NULL;
-
 	if (tmp_node == NULL)
 		return ;
 	while (tmp_node)
@@ -45,35 +68,9 @@ void lexical_analysis(t_parser *parser, t_shell *shell)
 		else
 		{
 			if (tmp_lexel->type == D_WORD)
-			{
 				add_argument(tmp_cmd, tmp_lexel->str);
-			}
 		}
-		if (tmp_lexel->type == D_REDIR_IN)
-		{
-			tmp_node = redir_in(tmp_node, &tmp_cmd);
-		}
-		if (tmp_lexel->type == D_REDIR_OUT)
-		{
-			tmp_node = redir_out(tmp_node, &tmp_cmd);
-		}
-		if (tmp_lexel->type == D_PIPE)
-		{
-			from_pipe = to_pipe(tmp_cmd);
-			if (tmp_cmd != NULL)
-			{
-				ft_lstadd_back(&shell->cmd_list, ft_lstnew(tmp_cmd));
-			}
-			else
-			{
-				ft_putstr_fd(RED"Error: PIPE From Nothing is NULL\n"RESET, 2);
-			}
-			tmp_cmd = create_cmd(NULL);
-			tmp_cmd->fd_stdin = from_pipe[0];
-			tmp_cmd->pipein = from_pipe;
-			tmp_cmd->pipeline_state += 2;
-			command_start = 0;
-		}
+
 		if (tmp_node)
 			tmp_node = tmp_node->next;
 	}
@@ -98,34 +95,12 @@ void	get_status(t_shell *sh)
 	sh->last_status = ((t_cmd *)tmp->content)->cmd_pre_exit_status % 256;
 }
 
-void	clean_parser(void *parser)
-{
-	t_parser	*pr;
-
-	pr = (t_parser *)parser;
-	clean_lexel(pr->tmp_lexel);
-}
-
-void	clean_lexel(void *lexel)
-{
-	t_lexel		*lex;
-
-	if (lex != NULL)
-	{
-		if (lex->str)
-			free(lex->str);
-		lex->str = NULL;
-		free(lex->str);
-		lex = NULL;
-	}
-}
-
 /// @brief  add current command direction out
-/// @param cmd 
+/// @param cmd
 int	*to_pipe(t_cmd *cmd)
 {
-	static int pindex;
-	
+	static int	pindex;
+
 	pipe(cmd->pipeout);
 	if (cmd->fd_stdout != 1)
 	{
@@ -140,10 +115,10 @@ int	*to_pipe(t_cmd *cmd)
 	return (cmd->pipeout);
 }
 
-char    **ft_str2drelloc_free(char **str, int size)
+char	**ft_str2drelloc_free(char **str, int size)
 {
-	char    **new_str;
-	int     i;
+	char	**new_str;
+	int		i;
 
 	i = 0;
 	new_str = ft_calloc(sizeof(char *), size);
@@ -156,21 +131,5 @@ char    **ft_str2drelloc_free(char **str, int size)
 	free(str);
 	return (new_str);
 }
-
 // clear here doc file
 // and set here doc status to 0
-void	clear_hd(void *vtf_cmd)
-{
-	t_cmd *cmd;
-
-	if (!vtf_cmd)
-		return ;
-	cmd = (t_cmd *)vtf_cmd;
-	if (cmd->here_doc_status)
-	{
-		unlink(cmd->heredoc_filename);
-		free(cmd->heredoc_filename);
-		cmd->heredoc_filename = NULL;
-	}
-	cmd->here_doc_status = 0;
-}
