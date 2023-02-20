@@ -5,9 +5,12 @@
 echo -n
 ### No option
 cd
+
 pwd
+char *getcwd(char *buf, size_t size)
 export
 unset
+Similar logic to export.
 env
 exit
 

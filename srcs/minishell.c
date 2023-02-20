@@ -6,7 +6,7 @@
 /*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 21:11:09 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 03:46:34 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main(int argc, char **argv, char **env)
 {
 	char		*rl_line;
 	t_shell		shell;
+	t_parser	parser;
 
 	if (argc == 0)
 		(void)argv;
@@ -25,7 +26,8 @@ int	main(int argc, char **argv, char **env)
 		rl_line = readline(PROMPT);
 		if (rl_line == NULL)
 			break ;
-		process_line(rl_line, &shell);
+		parser_init(&parser);
+		process_line(rl_line, &shell, &parser);
 		if (ft_strlen(rl_line) > 0)
 			add_history(rl_line);
 		free(rl_line);
@@ -33,59 +35,47 @@ int	main(int argc, char **argv, char **env)
 	return (0);
 }
 
-void	process_line(char *line, t_shell *shell)
+void	process_line(char *line, t_shell *shell, t_parser *parser)
 {
-	t_parser	parser;
-	int			i;
+	int	i;
 
-	shell->line = line;
 	i = 0;
-	parser_init(&parser);
+	shell->line = line;
 	while (line[i])
 	{
-		parser.is_char_or_quote = quote_state_check(line[i], &parser);
-		if (parser.quote_state == 0 && ft_isdirection(&line[i]))
-		{
-			if (ft_lstsize(parser.cur_word) != 0)
-			{
-				add_lexel(&parser, D_WORD);
-			}
-			add_char(&parser, line[i]);
-			add_lexel(&parser, line[i]);
-		}
-		else if (parser.quote_state == '\"' && line[i] == '$')
-		{
-			i += get_dollar(&parser, &line[i], shell);
-		}
-		else if (parser.quote_state == 0 && line[i] == ' ')
-		{
-			i += skip_space(&line[i]);
-			/// @brief adding current group of word to lexer element list
-			if (ft_lstsize(parser.cur_word) != 0)
-			{
-				// return error statement
-				add_lexel(&parser, D_WORD);
-			}
-		}
-		else if (!parser.is_char_or_quote)
-		{
-			if (line[i] == '$')
-			{
-				i += get_dollar(&parser, &line[i], shell);
-			}
-			else
-				add_char(&parser, line[i]);
-		}
+		parser->is_char_or_quote = quote_state_check(line[i], parser);
+		i += process_line_extend(i, line[i], shell, parser);
 		i++;
 	}
-	add_lexel(&parser, D_WORD);
-	// // @debug zone
-	//  debug_lstnext_show(parser.lexel_list);
-	//  dump_lexel_list(parser.lexel_list);
-	if (parser.quote_state != 0)
-		dprintf(2, RED"Error: quote not closed\n"RESET);
-	// @lexical analysis
-	lexical_analysis(&parser, shell);
-	//@brif Note to delete parser element
-	//destroy_parser(&parser);
+	add_lexel(parser, D_WORD);
+	if (parser->quote_state != 0)
+		ft_putstr_fd(RED"Error: quote not closed\n"RESET, 2);
+	lexical_analysis(parser, shell);
+}
+
+int	process_line_extend(int i, char line, t_shell *shell, t_parser *parser)
+{
+	if (parser->quote_state == 0 && ft_isdirection(&line))
+	{
+		if (ft_lstsize(parser->cur_word) != 0)
+			add_lexel(parser, D_WORD);
+		add_char(parser, line);
+		add_lexel(parser, line);
+	}
+	else if (parser->quote_state == '\"' && line == '$')
+		i += get_dollar(parser, &line, shell);
+	else if (parser->quote_state == 0 && line == ' ')
+	{
+		i += skip_space(&line);
+		if (ft_lstsize(parser->cur_word) != 0)
+			add_lexel(parser, D_WORD);
+	}
+	else if (!parser->is_char_or_quote)
+	{
+		if (line == '$')
+			i += get_dollar(parser, &line, shell);
+		else
+			add_char(parser, line);
+	}
+	return (i);
 }

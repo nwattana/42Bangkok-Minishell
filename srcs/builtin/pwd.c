@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:01:07 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/20 17:34:43 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 03:24:10 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	ft_pwd(t_shell *shell)
 {
 	char	*path;
 
+	(void)shell;
 	path = malloc(sizeof(char) * (PATH_MAX + 1));
 	path = getcwd(path, PATH_MAX);
 	ft_putendl_fd(path, 1);

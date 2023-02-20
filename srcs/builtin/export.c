@@ -6,7 +6,7 @@
 /*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:01:03 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/21 00:38:47 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 03:23:35 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	find_envi(char *key, int i, t_cmd *cmd, t_shell *shell);
 
 int	ft_export(t_cmd *cmd, t_shell *shell)
 {
-	char	i;
+	int		i;
 	char	*key;
 	char	*content;
 

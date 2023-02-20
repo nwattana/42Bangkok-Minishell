@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:04:51 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 18:33:22 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 03:07:12 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,15 @@ void	sig_handling(int sig, siginfo_t *siginfo, void *context)
 {
 	if (sig == SIGTERM)
 	{
-		// ctrl + d//
 		printf("\n SIGTERM %d\n", SIGTERM);
 		exit(SIGTERM);
 	}
 	if (sig == SIGQUIT)
 	{
-		// ctrl + \//
 		printf("\n");
 	}
 	if (sig == SIGINT)
 	{
-		// ctrl + c//
 		printf("\n SIGINT %d\n", SIGINT);
 		return ;
 	}
@@ -44,6 +41,4 @@ void	set_signal(t_shell *shell)
 	sigaction(SIGTERM, &(shell->signo), NULL);
 	sigaction(SIGQUIT, &(shell->signo), NULL);
 	sigaction(SIGINT, &(shell->signo), NULL);
-
-	
 }

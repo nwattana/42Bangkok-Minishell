@@ -6,7 +6,7 @@
 /*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:01:18 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/20 20:17:52 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 03:24:31 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	ft_unset(t_cmd *cmd, t_shell *shell)
 	char	**newenv;
 	int		i;
 	int		j;
-	char	*tmp;
 
 	i = 0;
 	j = 0;

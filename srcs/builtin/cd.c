@@ -6,7 +6,7 @@
 /*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 22:04:27 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 20:13:38 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 03:18:56 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static int	setpwd(t_shell *shell)
 	char	*tmp2;
 	t_cmd	*handoncmd;
 
+	tmp = ft_calloc(PATH_MAX + 1, sizeof(char));
 	if (check_env_valid_key("PWD", shell) > 0)
 	{
 		tmp = getcwd(tmp, PATH_MAX);
@@ -87,7 +88,6 @@ static int	setpwd(t_shell *shell)
 
 int	check_env_valid_key(char *key, t_shell *sh)
 {
-	char	*tmp;
 	char	*valid_key;
 	int		i;
 	int		key_len;
@@ -112,6 +112,7 @@ char	*to_home(t_cmd *cmd, t_shell *shell)
 {
 	char	*ret;
 
+	(void)cmd;
 	ret = get_env_from_key("HOME", shell);
 	if (!ret)
 	{

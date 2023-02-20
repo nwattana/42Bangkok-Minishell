@@ -6,7 +6,7 @@
 /*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 22:52:43 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 00:30:03 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 03:29:22 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ t_list	*redir_out(t_list *start, t_cmd **cur_cmd)
 
 void	open_for_write(int arrow_count, char *str, t_cmd **curcmd)
 {
-	int	file_to_open;
-
 	if (!curcmd)
 		return ;
 	if (*curcmd == NULL)
@@ -70,8 +68,7 @@ void	open_for_write(int arrow_count, char *str, t_cmd **curcmd)
 	if ((*curcmd)->fd_stdout != STDOUT_FILENO)
 		close((*curcmd)->fd_stdout);
 	if (arrow_count == 1)
-		file_to_open = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		(*curcmd)->fd_stdout = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	else if (arrow_count == 2)
-		file_to_open = open(str, O_WRONLY | O_CREAT | O_APPEND, 0777);
-	(*curcmd)->fd_stdout = file_to_open;
+		(*curcmd)->fd_stdout = open(str, O_WRONLY | O_CREAT | O_APPEND, 0777);
 }

@@ -19,7 +19,7 @@ RESET=\033[0m
 UNAME = $(shell uname -s)
 ifeq ($(UNAME), Linux)
 	LREAD_DIR = -L/usr/local/lib -I/usr/local/include/ -lreadline
-else 
+else
 	LREAD_DIR = -L/usr/local/opt/readline -I/usr/local/opt/readline/include -lreadline
 endif
 

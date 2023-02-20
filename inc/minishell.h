@@ -6,7 +6,7 @@
 /*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 01:04:14 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 03:45:42 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*ft_lst_groupword(t_list **lst);
 int		ft_isdirection(char *c);
 int		get_dollar(t_parser *parser, char *line, t_shell *shell);
 t_lexel	*lexel_new(char *str, int type);
-void	process_line(char *line, t_shell *shell);
+void	process_line(char *line, t_shell *shell, t_parser *parser);
+int		process_line_extend(int i, char line, t_shell *shell, t_parser *parser);
 void	parser_init(t_parser *parser);
 int		quote_state_check(char a, t_parser *parser);
 int		skip_space(char *line);

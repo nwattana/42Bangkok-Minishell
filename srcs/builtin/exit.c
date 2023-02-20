@@ -6,7 +6,7 @@
 /*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:00:58 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/21 01:06:55 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 03:19:27 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	ft_exit(t_cmd *cmd, t_shell *shell)
 {
 	int		status;
 
+	status = 0;
 	if (cmd->fd_stdin != 0 || cmd->fd_stdout != 1)
 		return (1);
 	if (cmd->argcount > 1 && cmd->argcount < 3)

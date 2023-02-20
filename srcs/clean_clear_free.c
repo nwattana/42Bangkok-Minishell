@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean_and_clear.c                                  :+:      :+:    :+:   */
+/*   clean_clear_free.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 01:43:23 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/21 01:44:54 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 03:26:06 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	clean_lexel(void *lexel)
 {
 	t_lexel		*lex;
 
+	lex = (t_lexel *)lexel;
 	if (lex != NULL)
 	{
 		if (lex->str)
@@ -49,3 +50,22 @@ void	clear_hd(void *vtf_cmd)
 	}
 	cmd->here_doc_status = 0;
 }
+
+char	**ft_str2drelloc_free(char **str, int size)
+{
+	char	**new_str;
+	int		i;
+
+	i = 0;
+	new_str = ft_calloc(sizeof(char *), size);
+	while (i < (size - 10))
+	{
+		new_str[i] = ft_strdup(str[i]);
+		i++;
+	}
+	ft_str2diter(str, &free);
+	free(str);
+	return (new_str);
+}
+// clear here doc file
+// and set here doc status to 0

@@ -6,7 +6,7 @@
 /*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 01:28:08 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 21:12:54 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 03:48:10 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@ static void		loop_add_char(t_parser *parser, char *val);
 int	get_dollar(t_parser *parser, char *line, t_shell *shell)
 {
 	int		i;
-	int		size;
 	char	*tmp;
 	char	*val;
 
 	i = 0;
+	val = NULL;
+	tmp = NULL;
 	while (line [i] && line[i + 1] && ft_isalnum(line[i + 1]))
 		i++;
 	if (i == 0)

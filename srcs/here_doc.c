@@ -6,7 +6,7 @@
 /*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 20:59:44 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/21 01:27:12 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 03:30:12 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ char	*reallocate(char *old, int size)
 
 	alloc = calloc(size, sizeof(char));
 	tmp = old;
+	i = 0;
 	while (tmp[i])
 	{
 		alloc[i] = tmp[i];

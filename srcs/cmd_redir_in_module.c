@@ -6,7 +6,7 @@
 /*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 22:56:06 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 00:10:33 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 03:29:49 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,6 @@ int	open_heredoc(char *str, t_cmd **curcmd)
 
 void	open_for_read(int arrow_count, char *str, t_cmd **curcmd)
 {
-	int		file_to_open;
-	char	*buffer;
-
 	if (!curcmd)
 		return ;
 	if (!*curcmd)
@@ -88,12 +85,11 @@ void	open_for_read(int arrow_count, char *str, t_cmd **curcmd)
 		close ((*curcmd)->fd_stdin);
 	}
 	if (arrow_count == 1)
-		file_to_open = open(str, O_RDONLY, 0777);
+		(*curcmd)->fd_stdin = open(str, O_RDONLY, 0777);
 	else if (arrow_count == 2)
 	{
-		file_to_open = open_heredoc(str, curcmd);
+		(*curcmd)->fd_stdin = open_heredoc(str, curcmd);
 	}
 	else
 		(*curcmd)->cmd_pre_exit_status = 1;
-	(*curcmd)->fd_stdin = file_to_open;
 }
