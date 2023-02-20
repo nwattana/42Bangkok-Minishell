@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/02/21 03:46:34 by lkaewsae         ###   ########.fr       */
-=======
-/*   Updated: 2023/02/21 01:54:46 by nwattana         ###   ########.fr       */
->>>>>>> 165e408bb7d52839f2400a2186bf002b11fa8ad5
+/*   Updated: 2023/02/21 03:56:18 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +28,9 @@ int main(int argc, char **argv, char **env)
 	{
 		rl_line = readline(PROMPT);
 		if (rl_line == NULL)
-<<<<<<< HEAD
 			break ;
 		parser_init(&parser);
 		process_line(rl_line, &shell, &parser);
-=======
-		{
-			ft_putstr_fd(PROMPT"exit", 0);
-			univesal_clear(&shell);
-			break;
-		}
-		process_line(rl_line, &shell);
->>>>>>> 165e408bb7d52839f2400a2186bf002b11fa8ad5
 		if (ft_strlen(rl_line) > 0)
 			add_history(rl_line);
 		free(rl_line);
