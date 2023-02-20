@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 17:42:10 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 21:11:09 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	char		*rl_line;
 	t_shell		shell;
@@ -24,7 +24,7 @@ int main(int argc, char **argv, char **env)
 	{
 		rl_line = readline(PROMPT);
 		if (rl_line == NULL)
-			break;
+			break ;
 		process_line(rl_line, &shell);
 		if (ft_strlen(rl_line) > 0)
 			add_history(rl_line);
@@ -33,7 +33,7 @@ int main(int argc, char **argv, char **env)
 	return (0);
 }
 
-void process_line(char *line, t_shell *shell)
+void	process_line(char *line, t_shell *shell)
 {
 	t_parser	parser;
 	int			i;
@@ -82,13 +82,10 @@ void process_line(char *line, t_shell *shell)
 	// // @debug zone
 	//  debug_lstnext_show(parser.lexel_list);
 	//  dump_lexel_list(parser.lexel_list);
-
 	if (parser.quote_state != 0)
-		dprintf(2,RED"Error: quote not closed\n"RESET);
+		dprintf(2, RED"Error: quote not closed\n"RESET);
 	// @lexical analysis
 	lexical_analysis(&parser, shell);
-
-	
 	//@brif Note to delete parser element
 	//destroy_parser(&parser);
 }

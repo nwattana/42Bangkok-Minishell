@@ -6,7 +6,7 @@
 /*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 19:30:48 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 01:04:14 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char	*check_access(t_cmd *cmd, t_shell *shell);
 void	ex_cute(t_cmd *cmd, t_shell *shell);
 int		direction_pipeline(t_list *cmd_list, t_shell *shell);
 void	get_status(t_shell *sh);
+int		check_isparent_cmd(char *cmd);
 
 // redirect
 t_list	*redir_out(t_list *start, t_cmd **cur_cmd);

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_from_key.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:52:59 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 02:00:34 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 20:59:01 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/minishell.h"
+#include "../inc/minishell.h"
 
 char	*get_env_from_key(char *key, t_shell *shell)
 {
@@ -37,7 +37,7 @@ char	*get_env_from_key(char *key, t_shell *shell)
 	return (NULL);
 }
 
-int		create_tmp_key(char **buf, char *key)
+int	create_tmp_key(char **buf, char *key)
 {
 	if (!key || !buf)
 		return (-1);

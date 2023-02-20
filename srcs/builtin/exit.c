@@ -6,7 +6,7 @@
 /*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:00:58 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/20 20:18:15 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 01:06:55 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	ft_exit(t_cmd *cmd, t_shell *shell)
 		return (1);
 	}
 	univesal_clear_extend(shell, 0);
+	return (status);
 }
 
 static int	check_is_digit(char *str)

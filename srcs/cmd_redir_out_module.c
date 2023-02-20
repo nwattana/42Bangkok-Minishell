@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_redir_out_module.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 22:52:43 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 14:19:57 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 00:30:03 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,12 @@
 /// @param start content == lexer list
 /// @param cur_cmd -> t_cmd
 /// @return adress of node that be word or error if not found word
-t_list	*redir_out(t_list *start, t_cmd **cur_cmd)
+t_list	*open_redir_out(t_list *start, t_cmd **cur_cmd, int tmp_type)
 {
-	t_list	*end;
 	t_lexel	*lex;
-	t_cmd	*tmp_cmd;
 	int		arrow_count;
-	int		tmp_type;
 
 	arrow_count = 0;
-	if (!cur_cmd || !start)
-		return (NULL);
-	tmp_type = ((t_lexel *)start->content)->type;
 	while (start)
 	{
 		lex = (t_lexel *)start->content;
@@ -49,6 +43,18 @@ t_list	*redir_out(t_list *start, t_cmd **cur_cmd)
 		start = start->next;
 	}
 	return (start);
+}
+
+t_list	*redir_out(t_list *start, t_cmd **cur_cmd)
+{
+	int		arrow_count;
+	int		tmp_type;
+
+	arrow_count = 0;
+	if (!cur_cmd || !start)
+		return (NULL);
+	tmp_type = ((t_lexel *)start->content)->type;
+	return (open_redir_out(start, cur_cmd, tmp_type));
 }
 
 void	open_for_write(int arrow_count, char *str, t_cmd **curcmd)

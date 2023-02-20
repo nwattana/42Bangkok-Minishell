@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:59:58 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 14:27:40 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 21:34:44 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 /// @brief Check quote state and change it
 /// return new quote state
-int quote_state_check(char a, t_parser *parser)
+int	quote_state_check(char a, t_parser *parser)
 {
 	if (parser->quote_state == 0 && (a == '\'' || a == '\"'))
 	{
@@ -35,12 +34,12 @@ void	destroy_parser(t_parser *parser)
 {
 	if (parser == NULL)
 		return ;
-	ft_lstclear(&parser->lexel_list, (void*)&lexel_del);
-	ft_lstclear(&parser->cur_word, (void*)&free_null);
+	ft_lstclear(&parser->lexel_list, (void *)&lexel_del);
+	ft_lstclear(&parser->cur_word, (void *)&free_null);
 }
 
 // free lexer element
-void lexel_del(t_lexel *lexel)
+void	lexel_del(t_lexel *lexel)
 {
 	if (lexel == NULL)
 		return ;
@@ -51,10 +50,10 @@ void lexel_del(t_lexel *lexel)
 /// @brief collect or word in curword list then
 /// create lexer element in TYPE from param
 /// create linked list node -> add to parser->lexel_list
-/// @param type WORD PIPR DIRECTION 
+/// @param type WORD PIPR DIRECTION
 int	add_lexel(t_parser *parser, int type)
 {
-	char *word;
+	char	*word;
 
 	if (parser == NULL)
 		return (1);
@@ -72,9 +71,9 @@ int	add_lexel(t_parser *parser, int type)
 }
 
 /// @brief pass amount of contiguose space
-int skip_space(char *line)
+int	skip_space(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i] == ' ')
@@ -95,9 +94,9 @@ int	ft_isdirection(char *c)
 
 /// @brief Collection char and add to current word list
 /// @return error code
-int		add_char(t_parser *parser, char c)
+int	add_char(t_parser *parser, char c)
 {
-	t_list *new;
+	t_list	*new;
 
 	if (!parser)
 		return (1);
@@ -105,15 +104,15 @@ int		add_char(t_parser *parser, char c)
 	if (new == NULL)
 		return (1);
 	ft_lst_addword(&(parser->cur_word), new);
-	return(0);
+	return (0);
 }
 
-/// @brief create new list node with 
+/// @brief create new list node with
 /// char content 2 bytes dont forget to free
-t_list *ft_lst_newchar(char c)
+t_list	*ft_lst_newchar(char c)
 {
-	t_list *new;
-	char *str;
+	t_list	*new;
+	char	*str;
 
 	str = (char *)malloc(sizeof(char) * 2);
 	if (str == NULL)
@@ -129,11 +128,11 @@ t_list *ft_lst_newchar(char c)
 }
 
 /// @brief add new node to the end of list with static last pointer
-t_list *ft_lst_addword(t_list **lst, t_list *word)
+t_list	*ft_lst_addword(t_list **lst, t_list *word)
 {
-	t_list *new;
-	static t_list *last;
-	
+	t_list			*new;
+	static t_list	*last;
+
 	if (lst == NULL || word == NULL)
 		return (NULL);
 	if (*lst == NULL)
@@ -149,14 +148,14 @@ t_list *ft_lst_addword(t_list **lst, t_list *word)
 	return (last);
 }
 
-/// @brief collect all char in list and return string 
+/// @brief collect all char in list and return string
 /// already free list and content
 /// dont forget to free returned string
-char *ft_lst_groupword(t_list **lst)
+char	*ft_lst_groupword(t_list **lst)
 {
-	t_list *tmp;
-	char *str;
-	int i;
+	t_list	*tmp;
+	char	*str;
+	int		i;
 
 	if (lst == NULL || *lst == NULL)
 		return (NULL);
@@ -180,9 +179,9 @@ char *ft_lst_groupword(t_list **lst)
 	return (str);
 }
 
-t_lexel *lexel_new(char *str, int type)
+t_lexel	*lexel_new(char *str, int type)
 {
-	t_lexel *new;
+	t_lexel	*new;
 
 	new = (t_lexel *)malloc(sizeof(t_lexel));
 	if (new == NULL)
@@ -192,7 +191,7 @@ t_lexel *lexel_new(char *str, int type)
 	return (new);
 }
 
-void parser_init(t_parser *parser)
+void	parser_init(t_parser *parser)
 {
 	parser->quote_state = 0;
 	parser->lexel_list = NULL;
