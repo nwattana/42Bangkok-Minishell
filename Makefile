@@ -1,6 +1,6 @@
 NAME=minishell
 CC=gcc
-CFLAGS=#-Wall -Werror -Wextra
+CFLAGS= #-Wall -Werror -Wextra
 SRCS= $(shell find ./srcs -name "*.c" -type f 2> /dev/null)
 LIBFT= -L./libft/ -I./libft/ -lft
 
@@ -48,7 +48,7 @@ clean:
 	@$(RM) *.dSYM
 
 fclean: clean
-	@make --no-print-directory -C ./libft clean
+	@make --no-print-directory -C ./libft fclean
 	@ echo "$(RED)Remove Libft $(RESET)"
 	@$(RM) $(NAME)
 	@echo "$(RED)Remove minishell $(RESET)"

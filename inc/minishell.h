@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 02:30:05 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:35:05 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <sys/wait.h>
 # include <limits.h>
 # include "../libft/libft.h"
@@ -30,6 +31,7 @@
 
 // @attribut pipeline state =>
 // keep state too how to close pipe and pipe open or not
+typedef struct sigaction t_sig;
 typedef struct s_cmd
 {
 	char	*cmd;
@@ -93,6 +95,8 @@ typedef struct s_shell
 	int		last_status;
 	int     sh_stdin;
 	int     sh_stdout;
+	t_sig	signal_val;
+
 	t_list  *cmd_list;
 }				t_shell;
 
@@ -148,9 +152,10 @@ int		*to_pipe(t_cmd *cmd);
 
 int		iscmd_inbuilt_in(t_cmd *cmd, t_shell *shell, int pid);
 char	**ft_str2d_addmem(char **str, char *new_str);
+
 // clear
 void	clear_hd(void *vtf_cmd);
-
+void	free_null(void	**val);
 
 // universal clear
 

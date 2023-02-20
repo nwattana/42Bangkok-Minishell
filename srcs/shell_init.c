@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:35:32 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 01:53:50 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:30:12 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void init_shell(t_shell *shell, char **env)
 	char	*tmp;
 
 	i = 0;
+	//set_signal(shell);
 	if (env)
 	{
 		// just point to it is okay;
@@ -33,6 +34,9 @@ void init_shell(t_shell *shell, char **env)
 	shell->sh_stdout = dup(STDOUT_FILENO);
 	shell->sh_stdin = dup(STDIN_FILENO);
 	shell->last_status = 0;
+	shell->cmd_list = NULL;
+
+
 	// for free shell->env 
 	// while (shell->env[i])
 	// {
@@ -76,6 +80,12 @@ void    ft_str2diter(char **str, void (*f)(void*))
     }
 }
 
+void	free_null(void	**val)
+{
+	free(*val);
+	*val = NULL;
+}
+
 void 	clone_env(t_shell *shell, char **env)
 {
 	int i;
@@ -93,3 +103,10 @@ void 	clone_env(t_shell *shell, char **env)
 	shell->env[i] = NULL;
 }
 
+
+// void	set_signal(t_shell *shell)
+// {
+// 	sigset_t	mask;
+	
+	
+// }

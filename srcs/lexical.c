@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:12:14 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 02:41:10 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:36:04 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,18 @@ void lexical_analysis(t_parser *parser, t_shell *shell)
 	int i = 0;
 	t_lexel *tmp_lexel;
 	t_cmd   *tmp_cmd;
-	int		std[2];
 	int     command_start;
 	t_list  *tmp_node;
-	int		pipe_is_open;
+	// int		pipe_is_open;
 	int		*from_pipe;
 
-	std[0] = dup(STDIN_FILENO);
-	std[1] = dup(STDOUT_FILENO);
 	// initial
-	pipe_is_open = 0;
 	tmp_node = parser->lexel_list;
 	command_start = 0;
 	tmp_cmd = NULL;
 
 	if (tmp_node == NULL)
 		return ;
-	//@debug lexel list 
 	while (tmp_node)
 	{
 		tmp_lexel = (t_lexel *)tmp_node->content;
@@ -101,6 +96,8 @@ void lexical_analysis(t_parser *parser, t_shell *shell)
 	//ft_lstiter(shell->cmd_list, cmd_dump);
 
 	direction_pipeline(shell->cmd_list, shell);
+
+//	ft_lstclear(&shell->lexel_list)
 	ft_lstclear(&shell->cmd_list, cmd_clear);
 }
 
