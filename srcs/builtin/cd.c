@@ -3,28 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 22:04:27 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 17:04:16 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 20:13:38 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-#include "../../inc/debug.h"
 
-static int		setpwd(t_shell *shell);
-static int		setcwd(t_shell *shell, char *tmp);
-char	*to_home(t_cmd *cmd , t_shell *shell);
+static int	setpwd(t_shell *shell);
+static int	setcwd(t_shell *shell, char *tmp);
+char		*to_home(t_cmd *cmds, t_shell *shell);
 // SET OLDPWD = CURRENT PWD
-// change directory 
+// change directory
 // SET PWD = NEW PWD if have PWD
 // OLD pwd will spawn after cd
-int		ft_cd(t_cmd *cmd, t_shell *shell)
+
+int	ft_cd(t_cmd *cmd, t_shell *shell)
 {
 	char	*tmp;
 
-	// temporary keep curdir
 	if (cmd->argcount == 1)
 	{
 		tmp = to_home(cmd, shell);
@@ -37,7 +36,6 @@ int		ft_cd(t_cmd *cmd, t_shell *shell)
 		tmp = malloc(sizeof(char) * PATH_MAX);
 		tmp = getcwd(tmp, PATH_MAX);
 	}
-	// change dir 
 	if (chdir(cmd->argval[1]) != 0)
 	{
 		ft_putstr_fd("cd: no such file or directory: ", 2);
@@ -51,29 +49,29 @@ int		ft_cd(t_cmd *cmd, t_shell *shell)
 	return (0);
 }
 
-static int		setcwd(t_shell *shell, char *tmp)
+static int	setcwd(t_shell *shell, char *tmp)
 {
 	char	*tmp2;
 	t_cmd	*handoncmd;
-	
+
 	tmp2 = ft_strjoin("OLDPWD=", tmp);
 	handoncmd = cmd_hand_gen("export", tmp2);
 	ft_export(handoncmd, shell);
 	free(tmp2);
 	free(shell->pwd);
-	shell->pwd=tmp;
+	shell->pwd = tmp;
 	tmp = NULL;
 	tmp2 = NULL;
 	cmd_clear(handoncmd);
 	return (0);
 }
 
-static int		setpwd(t_shell *shell)
+static int	setpwd(t_shell *shell)
 {
-	char *tmp;
-	char *tmp2;
-	t_cmd *handoncmd;
-	
+	char	*tmp;
+	char	*tmp2;
+	t_cmd	*handoncmd;
+
 	if (check_env_valid_key("PWD", shell) > 0)
 	{
 		tmp = getcwd(tmp, PATH_MAX);
@@ -87,7 +85,7 @@ static int		setpwd(t_shell *shell)
 	return (0);
 }
 
-int		check_env_valid_key(char *key, t_shell *sh)
+int	check_env_valid_key(char *key, t_shell *sh)
 {
 	char	*tmp;
 	char	*valid_key;
@@ -110,7 +108,7 @@ int		check_env_valid_key(char *key, t_shell *sh)
 	return (0);
 }
 
-char	*to_home(t_cmd *cmd , t_shell *shell)
+char	*to_home(t_cmd *cmd, t_shell *shell)
 {
 	char	*ret;
 

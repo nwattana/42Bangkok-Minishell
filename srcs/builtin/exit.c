@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:00:58 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/20 17:52:18 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 20:18:15 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 // no argument exit 0
 // argument number -> exit = num % 256
 static int	check_is_digit(char *str);
+static void	univesal_clear_extend(t_shell *shell, int status);
+
+void	univesal_clear_extend(t_shell *shell, int status)
+{
+	univesal_clear(shell);
+	exit(status);
+}
 
 int	ft_exit(t_cmd *cmd, t_shell *shell)
 {
@@ -32,11 +39,9 @@ int	ft_exit(t_cmd *cmd, t_shell *shell)
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(cmd->argval[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
-			univesal_clear(shell);
-			exit(255);
+			univesal_clear_extend(shell, 255);
 		}
-		univesal_clear(shell);
-		exit(ft_atoi(cmd->argval[1]) % 256);
+		univesal_clear_extend(shell, ft_atoi(cmd->argval[1]) % 256);
 	}
 	else if (cmd->argcount >= 3)
 	{
@@ -44,8 +49,7 @@ int	ft_exit(t_cmd *cmd, t_shell *shell)
 		univesal_clear(shell);
 		return (1);
 	}
-	univesal_clear(shell);
-	exit(0);
+	univesal_clear_extend(shell, 0);
 }
 
 static int	check_is_digit(char *str)

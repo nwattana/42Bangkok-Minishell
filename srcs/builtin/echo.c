@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:58:22 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/20 17:32:41 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 20:15:45 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/my_builtin.h"
-#include "../../inc/debug.h"
+
 int	ft_echo(t_cmd *cmd)
 {
 	int		nl;
@@ -20,8 +20,8 @@ int	ft_echo(t_cmd *cmd)
 
 	i = 1;
 	nl = 0;
-	argv=cmd->argval;
-	while (cmd->argcount != 1 &&ft_strcmp(argv[i], "-n") == 0)
+	argv = cmd->argval;
+	while (cmd->argcount != 1 && ft_strcmp(argv[i], "-n") == 0)
 	{
 		nl = 1;
 		i++;

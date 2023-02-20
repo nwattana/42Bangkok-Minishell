@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:01:03 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/20 17:34:42 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 20:21:57 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/my_builtin.h"
 
+void	find_envi(char *key, int i, t_cmd *cmd, t_shell *shell);
 // check input =
 // if there is no argument env have to sort but still the same env
 // ex. export p=p -> env
@@ -19,13 +20,13 @@
 // new creat case (env in env)
 // ft_export(char)
 // do it in main
+
 int	ft_export(t_cmd *cmd, t_shell *shell)
 {
 	char	**s_arg;
 	char	i;
 	char	*key;
 	char	*content;
-	char	*envi;
 
 	i = 1;
 	if (cmd->argcount == 1)
@@ -34,42 +35,18 @@ int	ft_export(t_cmd *cmd, t_shell *shell)
 	{
 		if (cmd->argval[i][0] == '\0')
 			return (1);
-		content = ft_strchr(cmd->argval[i] , '=');
+		content = ft_strchr(cmd->argval[i], '=');
 		if (content == NULL)
 		{
 			i++;
 			continue ;
 		}
-		
 		if (content[0] != '\0')
 		{
-			key = ft_substr(cmd->argval[i], 0, &content[1] -  cmd->argval[i]);
+			key = ft_substr(cmd->argval[i], 0, &content[1] - cmd->argval[i]);
 			free(key);
 		}
-
-		int j;
-		j = 0;
-		while (shell->env[j] && key != NULL)
-		{
-			envi = ft_strnstr(shell->env[j], key, ft_strlen(key));
-			if (envi != NULL)
-				break;
-			j++;
-		}
-
-		char *tmp;
-		if (envi != NULL)
-		{
-			tmp = envi;
-			shell->env[j] = ft_strdup(cmd->argval[i]);
-			free(envi);
-			j++;
-		}
-
-		if (envi == NULL)
-		{
-			shell->env = ft_str2d_addmem(shell->env, cmd->argval[i]);
-		}
+		find_envi(key, i, cmd, shell);
 		i++;
 	}
 	return (0);
@@ -101,4 +78,28 @@ char	**ft_str2d_addmem(char **str, char *new_str)
 	free(tmp);
 	str = NULL;
 	return (ret);
+}
+
+void	find_envi(char *key, int i, t_cmd *cmd, t_shell *shell)
+{
+	int		j;
+	char	*envi;
+
+	j = 0;
+	envi = 0;
+	while (shell->env[j] && key != NULL)
+	{
+		envi = ft_strnstr(shell->env[j], key, ft_strlen(key));
+		if (envi != NULL)
+			break ;
+		j++;
+	}
+	if (envi != NULL)
+	{
+		shell->env[j] = ft_strdup(cmd->argval[i]);
+		free(envi);
+		j++;
+	}
+	if (envi == NULL)
+		shell->env = ft_str2d_addmem(shell->env, cmd->argval[i]);
 }

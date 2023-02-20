@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 18:05:52 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/20 19:30:48 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int		*to_pipe(t_cmd *cmd);
 int		iscmd_inbuilt_in(t_cmd *cmd, t_shell *shell, int pid);
 char	**ft_str2d_addmem(char **str, char *new_str);
 
-// universal clear 
+// universal clear
 void	univesal_clear(t_shell *shell);
 
 // env utils
@@ -94,6 +94,6 @@ void	path_update(t_shell *shell);
 
 // signal
 void	set_signal(t_shell *shell);
-void	sig_handling(int sig);
+// void	sig_handling(int sig);
 
 #endif
