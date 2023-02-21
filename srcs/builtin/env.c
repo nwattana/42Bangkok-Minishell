@@ -3,27 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 18:00:54 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/20 20:16:45 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:10:11 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/my_builtin.h"
 #include<stdio.h>
 
-void	ft_env(char **env, t_shell *shell)
+void	ft_env(t_cmd *cmd, t_shell *shell)
 {
+	char	**env;
 	int		i;
-	char	*trim;
 
-	trim = ft_strtrim(shell->line, " ");
-	if (ft_strcmp(trim, "env") != 0)
+	if (cmd->argcount > 1)
 	{
 		ft_putstr_fd
-		(RED"ENV No option and No pipe or redirection too\n"RESET, 2);
-		free(trim);
+		(RED"ENV No option and Argument\n"RESET, 2);
 		exit (1);
 	}
 	env = shell->env;

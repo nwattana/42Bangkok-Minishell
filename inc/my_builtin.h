@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:31:27 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/20 17:36:28 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:08:35 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 // builtin
 int		ft_exit(t_cmd *exit, t_shell *shell);
 int		ft_echo(t_cmd *cmd);
-void	ft_env(char **env, t_shell *shell);
+void	ft_env(t_cmd *cmd, t_shell *shell);
 int		ft_pwd(t_shell *shell);
 int		ft_export(t_cmd *cmd, t_shell *shell);
 int		ft_unset(t_cmd *cmd, t_shell *shell);

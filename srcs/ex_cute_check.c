@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_cute_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 00:47:05 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/21 18:17:41 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:07:40 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	iscmd_inbuilt_in(t_cmd *cmd, t_shell *shell, int pid)
 	if (!pid && ft_strcmp(cmd->cmd, "echo") == 0)
 		ft_echo(cmd);
 	else if (!pid && ft_strcmp(cmd->cmd, "env") == 0)
-		ft_env(shell->env, shell);
+		ft_env(cmd, shell);
 	else if (!pid && ft_strcmp(cmd->cmd, "pwd") == 0)
 		ft_pwd(shell);
 	else if (pid && ft_strcmp(cmd->cmd, "export") == 0)
