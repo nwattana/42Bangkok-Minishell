@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 01:16:27 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/19 22:21:48 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:44:32 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,5 @@
 # define PIPE_READ_END 0
 # define PIPE_WRITE_END 1
 
+# define TO_BADUSER "Something wrong !! : "
 #endif

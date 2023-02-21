@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_cute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 17:25:51 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 01:08:55 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:47:10 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	parent_process(t_cmd *cmd, int pid, t_shell *shell)
 {
-	if (cmd->pipeline_state & 1)
+	if (cmd != NULL && cmd->pipeline_state & 1)
 		dup2(cmd->pipeout[0], STDIN_FILENO);
 	iscmd_inbuilt_in(cmd, shell, pid);
 	close(cmd->pipeout[1]);
@@ -51,13 +51,6 @@ int	direction_pipeline(t_list *cmd_list, t_shell *shell)
 	return (0);
 }
 
-// pipein [][] from previose cmd
-//<- current cmd command will read from read end of this pipe
-// pipeout [][] from currebt cmd
-//<- current cmd will write to write to write end of this pipe
-// pipeline_state
-//-> readfrom pipe += 1 write to pipe += 2
-// @debug a lot of bug below
 void	close_pipe(t_cmd *cmd, int *std)
 {
 	if (cmd->pipeline_state & 2)
@@ -96,8 +89,7 @@ void	ex_cute(t_cmd *cmd, t_shell *shell)
 	{
 		ft_putstr_fd(RED"MINISHELL: "RESET, 2);
 		ft_putstr_fd(cmd->argval[0], 2);
-		ft_putstr_fd(RED": COMMAND: NOT FOUND!!: ", 2);
-		ft_putendl_fd(RESET"", 2);
+		ft_putstr_fd(RED" : COMMAND: NOT FOUND!!: \n"RESET, 2);
 		cmd->cmd_pre_exit_status = 127;
 		exit(127);
 	}

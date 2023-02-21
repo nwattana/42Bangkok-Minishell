@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:12:14 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 14:41:25 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:45:21 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ extern t_shell	*g_shell;
 void	lexana_if_word(t_lexana *lexana);
 void	lexana_if_dir(t_lexana *lexana);
 void	lexana_if_pipe(t_lexana *lexana, t_shell *shell);
+void	cmd_dump(void *content);
 
 void	lexical_analysis(t_parser *parser, t_shell *shell)
 {
@@ -34,6 +35,11 @@ void	lexical_analysis(t_parser *parser, t_shell *shell)
 		lexana_if_pipe(&lexana, shell);
 		if (lexana.tmp_node)
 			lexana.tmp_node = lexana.tmp_node->next;
+	}
+	if (lexana.tmp_cmd == NULL)
+	{
+		ft_putstr_fd(TO_BADUSER""RED"Single Meta char ?\n"RESET, 2);
+		return ;
 	}
 	ft_lstadd_back(&shell->cmd_list, ft_lstnew(lexana.tmp_cmd));
 	direction_pipeline(shell->cmd_list, shell);
@@ -82,14 +88,15 @@ void	lexana_if_pipe(t_lexana *lexana, t_shell *shell)
 {
 	if (lexana->tmp_lexel->type == D_PIPE)
 	{
-		lexana->from_pipe = to_pipe(lexana->tmp_cmd);
 		if (lexana->tmp_cmd != NULL)
 		{
+			lexana->from_pipe = to_pipe(lexana->tmp_cmd);
 			ft_lstadd_back(&shell->cmd_list, ft_lstnew(lexana->tmp_cmd));
 		}
 		else
 		{
-			ft_putstr_fd(RED"Error: PIPE From Nothing is NULL\n"RESET, 2);
+			return ((void)ft_putstr_fd(RED"Error: PIPE From"\
+			" Nothing is NULL\n"RESET, 2));
 		}
 		lexana->tmp_cmd = create_cmd(NULL);
 		lexana->tmp_cmd->fd_stdin = lexana->from_pipe[0];

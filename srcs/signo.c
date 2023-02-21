@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:04:51 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 14:48:05 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:42:26 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,3 @@ void	set_signal(t_shell *shell)
 	sigaction(SIGINT, &(shell->signo), NULL);
 	sigaction(SIGTERM, &(shell->signo), NULL);
 }
-
-// void	set_signal(t_shell *shell)
-// {
-// 	rl_catch_signals = 0;
-// 	sigemptyset(&(shell->signquit.sa_mask));
-// 	sigaddset(&(shell->signquit.sa_mask), SIGQUIT);
-// 	shell->signquit.sa_handler = SIG_IGN;
-// 	sigaction(SIGQUIT, &(shell->signquit), NULL);
-
-// 	signal(SIGTERM, sig_handling);
-// 	signal(SIGINT, sig_handling);
-// }
