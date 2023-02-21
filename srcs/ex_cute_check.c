@@ -6,7 +6,7 @@
 /*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 00:47:05 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/21 00:49:23 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 18:17:41 by lkaewsae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ char	*check_access(t_cmd *cmd, t_shell *shell)
 	if (access(path, F_OK) == 0)
 		return (path);
 	path_update(shell);
+	if (!shell->path)
+		return (NULL);
 	while (shell->path[i])
 	{
 		path = ft_strjoin(shell->path[i], "/");
