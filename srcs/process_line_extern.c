@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:47:30 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 14:09:46 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 14:33:51 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	pre_lexical_analysis(t_parser *parser, t_shell *shell)
 
 void	process_line_ex(char *line, int *i, t_parser *parser, t_shell *shell)
 {
-	if (parser->quote_state == 0 && ft_isdirection(line[*i]))
+	if (parser->quote_state == 0 && ft_isdirection(line + *i))
 	{
 		if (ft_lstsize(parser->cur_word) != 0)
 			add_lexel(parser, D_WORD);

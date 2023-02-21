@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:59:58 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 03:06:20 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 14:35:24 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 t_list	*ft_lst_addword(t_list **lst, t_list *word)
 {
-	t_list			*new;
 	static t_list	*last;
 
 	if (lst == NULL || word == NULL)

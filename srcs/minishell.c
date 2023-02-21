@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 13:57:48 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 14:36:51 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int main(int argc, char **argv, char **env)
 			add_history(rl_line);
 		free(rl_line);
 	}
+	univesal_clear(g_shell);
+	ft_putstr_fd(PROMPT"Exit\n", 1);
 	return (0);
 }
 

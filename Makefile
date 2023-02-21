@@ -1,6 +1,6 @@
 NAME=minishell
 CC=gcc
-CFLAGS= #-Wall -Werror -Wextra
+CFLAGS= -Wall -Werror -Wextra
 SRCS= $(shell find ./srcs -name "*.c" -type f 2> /dev/null)
 LIBFT= -L./libft/ -I./libft/ -lft
 
@@ -34,7 +34,7 @@ all:$(NAME)
 	@echo "$(GREEN)Compile $(BLUE)$<$(RESET)"
 	@$(CC) $(CFLAGS) $(RINC) -iquote./inc -c $< -o $@ -g
 
-$(NAME):$(OBJ) libft
+$(NAME): libft $(OBJ)
 	@echo "$(GREEN)Compile $(RESET)$(BLUE)$(NAME)$(RESET)"
 	@printf "$(RED)$(SEP)\nCOMPILE STATEMENT\n$(SEP)\n"
 	-$(CC) $(CFLAGS) $(OBJ) $(INC) -o $(NAME)
