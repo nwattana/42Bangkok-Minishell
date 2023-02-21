@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 02:18:14 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/21 15:44:59 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:57:29 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	get_status(t_shell *sh)
 	{
 		tmp = tmp->next;
 	}
-	sh->last_status = ((t_cmd *)tmp->content)->cmd_pre_exit_status % 256;
+	if (tmp)
+		sh->last_status = ((t_cmd *)tmp->content)->cmd_pre_exit_status % 256;
 }
 
 int	*to_pipe(t_cmd *cmd)

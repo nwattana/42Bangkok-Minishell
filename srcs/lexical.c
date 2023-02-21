@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:12:14 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 15:45:21 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:57:40 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	lexical_analysis(t_parser *parser, t_shell *shell)
 	}
 	ft_lstadd_back(&shell->cmd_list, ft_lstnew(lexana.tmp_cmd));
 	direction_pipeline(shell->cmd_list, shell);
+	get_status(shell);
 	ft_lstclear(&shell->cmd_list, cmd_clear);
 }
 
