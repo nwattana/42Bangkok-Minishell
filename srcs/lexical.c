@@ -6,25 +6,24 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:12:14 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 13:37:12 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 14:41:25 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/minishell.h"
+#include "../inc/minishell.h"
 
-extern t_shell *g_shell;
+extern t_shell	*g_shell;
 void	lexana_if_word(t_lexana *lexana);
 void	lexana_if_dir(t_lexana *lexana);
 void	lexana_if_pipe(t_lexana *lexana, t_shell *shell);
 
-void lexical_analysis(t_parser *parser, t_shell *shell)
+void	lexical_analysis(t_parser *parser, t_shell *shell)
 {
 	t_lexana	lexana;
 
 	lexana.tmp_node = parser->lexel_list;
 	lexana.command_start = 0;
 	lexana.tmp_cmd = NULL;
-
 	if (lexana.tmp_node == NULL)
 		return ;
 	while (lexana.tmp_node)
@@ -99,5 +98,3 @@ void	lexana_if_pipe(t_lexana *lexana, t_shell *shell)
 		lexana->command_start = 0;
 	}
 }
-
-

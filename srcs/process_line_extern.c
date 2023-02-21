@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:47:30 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 14:33:51 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 14:47:06 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	pre_lexical_analysis(t_parser *parser, t_shell *shell)
 {
 	if (parser->quote_state != 0)
-		ft_putstr_fd(RED"Error: quote not closed\n"RESET,2);
+		ft_putstr_fd(RED"Error: quote not closed\n"RESET, 2);
 	else
 		lexical_analysis(parser, shell);
 	destroy_parser(parser);

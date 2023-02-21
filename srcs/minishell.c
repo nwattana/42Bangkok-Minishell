@@ -6,15 +6,15 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 20:01:52 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 14:36:51 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 14:43:46 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-extern t_shell *g_shell;
+extern t_shell	*g_shell;
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	char		*rl_line;
 	t_shell		shell;
@@ -28,7 +28,7 @@ int main(int argc, char **argv, char **env)
 	{
 		rl_line = readline(PROMPT);
 		if (rl_line == NULL)
-			break;
+			break ;
 		shell.line = rl_line;
 		process_line(rl_line, &shell);
 		if (ft_strlen(rl_line) > 0)
@@ -40,38 +40,17 @@ int main(int argc, char **argv, char **env)
 	return (0);
 }
 
-void process_line(char *line, t_shell *shell)
+void	process_line(char *line, t_shell *shell)
 {
 	t_parser	parser;
 	int			i;
-	
+
 	i = 0;
 	parser_init(&parser);
 	while (line[i])
 	{
 		parser.is_char_or_quote = quote_state_check(line[i], &parser);
-		if (parser.quote_state == 0 && ft_isdirection(&line[i]))
-		{
-			if (ft_lstsize(parser.cur_word) != 0)
-				add_lexel(&parser, D_WORD);
-			add_char(&parser, line[i]);
-			add_lexel(&parser, line[i]);
-		}
-		else if (parser.quote_state == '\"' && line[i] == '$')
-			i += get_dollar(&parser, &line[i], shell);
-		else if (parser.quote_state == 0 && line[i] == ' ')
-		{
-			i += skip_space(&line[i]);
-			if (ft_lstsize(parser.cur_word) != 0)
-				add_lexel(&parser, D_WORD);
-		}
-		else if (!parser.is_char_or_quote)
-		{
-			if (line[i] == '$')
-				i += get_dollar(&parser, &line[i], shell);
-			else
-				add_char(&parser, line[i]);
-		}
+		process_line_ex(line, &i, &parser, shell);
 		i++;
 	}
 	add_lexel(&parser, D_WORD);
