@@ -6,7 +6,7 @@
 /*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:30:15 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 01:25:10 by nwattana         ###   ########.fr       */
+/*   Updated: 2023/02/21 13:12:24 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,17 @@ typedef struct s_parser
 	t_list	*cur_word;
 	t_list	*cmd_list;
 }				t_parser;
+
+typedef struct s_lexana
+{
+	t_list  *tmp_node;
+	t_lexel *tmp_lexel;
+	t_cmd   *tmp_cmd;
+	int		i;
+	int     command_start;
+	int		*from_pipe;
+
+}			t_lexana;
 
 typedef struct s_shell
 {

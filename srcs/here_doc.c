@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 20:59:44 by lkaewsae          #+#    #+#             */
-/*   Updated: 2023/02/21 03:30:12 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 12:51:44 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*get_next_line(int fd)
 	size = 1;
 	if (read(fd, NULL, 0) < 0)
 		return (NULL);
-	ret = calloc(sizeof(char), 200);
+	ret = ft_calloc(sizeof(char), 200);
 	while (read(fd, &ret[i], 1) > 0 && ret[i] != '\n')
 	{
 		i++;
@@ -91,9 +91,6 @@ char	*get_here_doc(char *str)
 	return (ret);
 }
 
-/// @brief Need optimise
-/// @param str
-/// @return
 char	*hd_name(char *str)
 {
 	char	*ret;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 19:46:42 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/21 03:55:42 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 14:06:26 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include "my_builtin.h"
 # include "my_struct.h"
 
+t_shell	*g_shell;
 // parser smol expand
 int		add_char(t_parser *parser, char c);
 int		add_lexel(t_parser *parser, int type);
@@ -38,11 +39,12 @@ char	*ft_lst_groupword(t_list **lst);
 int		ft_isdirection(char *c);
 int		get_dollar(t_parser *parser, char *line, t_shell *shell);
 t_lexel	*lexel_new(char *str, int type);
-void	process_line(char *line, t_shell *shell, t_parser *parser);
-int		process_line_extend(int i, char line, t_shell *shell, t_parser *parser);
+void 	process_line(char *line, t_shell *shell);
 void	parser_init(t_parser *parser);
 int		quote_state_check(char a, t_parser *parser);
 int		skip_space(char *line);
+void	pre_lexical_analysis(t_parser *parser, t_shell *shell);
+void	process_line_ex(char *line, int *i, t_parser *parser, t_shell *shell);
 
 // init shell
 void	init_shell(t_shell *shell, char **env);

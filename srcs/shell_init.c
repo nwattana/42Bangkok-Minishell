@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkaewsae <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nwattana <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 17:35:32 by nwattana          #+#    #+#             */
-/*   Updated: 2023/02/20 21:38:14 by lkaewsae         ###   ########.fr       */
+/*   Updated: 2023/02/21 12:42:32 by nwattana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	init_shell(t_shell *shell, char **env)
 	char	*tmp;
 
 	i = 0;
-	set_signal(shell);
+	//maset_signal(shell);
 	if (env)
 	{
 		clone_env(shell, env);
