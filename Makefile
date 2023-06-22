@@ -30,6 +30,9 @@ INC=$(LREAD_DIR) $(LIBFT)
 
 all:$(NAME)
 
+meaow:
+	@echo say meaow
+
 %.o:%.c
 	@echo "$(GREEN)Compile $(BLUE)$<$(RESET)"
 	@$(CC) $(CFLAGS) $(RINC) -iquote./inc -c $< -o $@ -g
